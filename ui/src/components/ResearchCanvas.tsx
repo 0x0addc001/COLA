@@ -25,7 +25,7 @@ export function ResearchCanvas() {
     },
   });
 
-  useCoAgentStateRender({
+  useCoAgentStateRender({ // Render progress
     name: agent,
     render: ({ state, nodeName, status }) => {
       if (!state.logs || state.logs.length === 0) {
@@ -35,7 +35,7 @@ export function ResearchCanvas() {
     },
   });
 
-  useCopilotAction({
+  useCopilotAction({ // Human-in-the-loop delete resources
     name: "DeleteResources",
     description:
       "Prompt the user for resource delete confirmation, and then perform resource deletion",
