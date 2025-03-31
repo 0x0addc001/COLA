@@ -1,0 +1,9 @@
+{
+  "python_version": "3.12",
+  "dockerfile_lines": [],
+  "dependencies": ["."],
+  "graphs": {
+    "formulation_agent": "./formulation_agent/graph.py:graph"
+  },
+  "env": ".env"
+}
