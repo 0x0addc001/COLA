@@ -88,7 +88,7 @@ export function ResearchCanvas() {
     setState({ ...state, resources });
   };
 
-  // const [resources, setResources] = useState<Resource[]>(dummyResources);
+  // const [resources, setResources] = useState<PlanReference[]>(dummyResources);
   const [newResource, setNewResource] = useState<Resource>({
     url: "",
     title: "",
@@ -138,22 +138,33 @@ export function ResearchCanvas() {
       <div className="space-y-8 pb-10">
         <div>
           <h2 className="text-lg font-medium mb-3 text-primary">
-            Research Question
+            Project Settings
           </h2>
-          <Input
-            placeholder="Enter your research question"
+          {/*<Input*/}
+          {/*  // placeholder="Enter your project settings"*/}
+          {/*  value={state.research_question || ""}*/}
+          {/*  onChange={(e) =>*/}
+          {/*    setState({ ...state, research_question: e.target.value })*/}
+          {/*  }*/}
+          {/*  aria-label="Research question"*/}
+          {/*  className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"*/}
+          {/*  style={{ minHeight: "200px" }}*/}
+          {/*/>*/}
+          <Textarea
+            // placeholder="Enter your project settings"
             value={state.research_question || ""}
             onChange={(e) =>
               setState({ ...state, research_question: e.target.value })
             }
             aria-label="Research question"
             className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
+            style={{ minHeight: "200px" }}
           />
         </div>
 
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-medium text-primary">Resources</h2>
+            <h2 className="text-lg font-medium text-primary">Plan References</h2>
             <EditResourceDialog
               isOpen={isEditResourceOpen}
               onOpenChange={setIsEditResourceOpen}
@@ -171,7 +182,7 @@ export function ResearchCanvas() {
           </div>
           {resources.length === 0 && (
             <div className="text-sm text-slate-400">
-              Click the button above to add resources.
+              Click the button above to add references.
             </div>
           )}
 
@@ -186,11 +197,11 @@ export function ResearchCanvas() {
 
         <div className="flex flex-col h-full">
           <h2 className="text-lg font-medium mb-3 text-primary">
-            Research Draft
+            Design Plan
           </h2>
           <Textarea
             data-test-id="research-draft"
-            placeholder="Write your research draft here"
+            // placeholder="Write your research draft here"
             value={state.report || ""}
             onChange={(e) => setState({ ...state, report: e.target.value })}
             rows={10}
@@ -199,6 +210,72 @@ export function ResearchCanvas() {
             style={{ minHeight: "200px" }}
           />
         </div>
+
+        <div className="flex flex-col h-full">
+          <h2 className="text-lg font-medium mb-3 text-primary">
+            Plan2Image Prompt
+          </h2>
+          <Textarea
+            data-test-id="research-draft2"
+            // placeholder="Write your research draft here"
+            value={state.report || ""}
+            onChange={(e) => setState({ ...state, report: e.target.value })}
+            rows={10}
+            aria-label="Research draft"
+            className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
+            style={{ minHeight: "200px" }}
+          />
+        </div>
+
+        <div>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-medium text-primary">Image References</h2>
+            <EditResourceDialog
+              isOpen={isEditResourceOpen}
+              onOpenChange={setIsEditResourceOpen}
+              editResource={editResource}
+              setEditResource={setEditResource}
+              updateResource={updateResource}
+            />
+            <AddResourceDialog
+              isOpen={isAddResourceOpen}
+              onOpenChange={setIsAddResourceOpen}
+              newResource={newResource}
+              setNewResource={setNewResource}
+              addResource={addResource}
+            />
+          </div>
+          {resources.length === 0 && (
+            <div className="text-sm text-slate-400">
+              Click the button above to add references.
+            </div>
+          )}
+
+          {resources.length !== 0 && (
+            <Resources
+              resources={resources}
+              handleCardClick={handleCardClick}
+              removeResource={removeResource}
+            />
+          )}
+        </div>
+
+        <div className="flex flex-col h-full">
+          <h2 className="text-lg font-medium mb-3 text-primary">
+            Prototype Image
+          </h2>
+          <Textarea
+            data-test-id="research-draft3"
+            // placeholder="Write your research draft here"
+            value={state.report || ""}
+            onChange={(e) => setState({ ...state, report: e.target.value })}
+            rows={10}
+            aria-label="Research draft"
+            className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
+            style={{ minHeight: "200px" }}
+          />
+        </div>
+
       </div>
     </div>
   );

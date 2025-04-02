@@ -11,29 +11,29 @@ from langchain.tools import tool
 from tavily import TavilyClient
 from copilotkit.langgraph import copilotkit_emit_state, copilotkit_customize_config
 
-from formulation_agent.state import AgentState
-from formulation_agent.model import get_model
+from modeler.state import AgentState
+from modeler.model import Model, FACTUAL_MODEL
 
-class ResourceInput(BaseModel):
-    """A resource with a short description"""
-    url: str = Field(description="The URL of the resource")
-    title: str = Field(description="The title of the resource")
-    description: str = Field(description="A short description of the resource")
+class ReferenceInput(BaseModel):
+    """A reference with a short description"""
+    url: str = Field(description="The URL of the reference")
+    title: str = Field(description="The title of the reference")
+    description: str = Field(description="A short description of the reference")
 
 @tool
-def ExtractResources(resources: List[ResourceInput]): # pylint: disable=invalid-name,unused-argument
-    """Extract the 3-5 most relevant resources from a search result."""
+def ExtractReferences(references: List[ReferenceInput]): # pylint: disable=invalid-name,unused-argument
+    """Extract the 3-5 most relevant references from a search result."""
 
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
 async def search_node(state: AgentState, config: RunnableConfig):
     """
-    The search node is responsible for searching the internet for resources.
+    The search node is responsible for searching the internet for references.
     """
 
     ai_message = cast(AIMessage, state["messages"][-1])
 
-    state["resources"] = state.get("resources", [])
+    state["references"] = state.get("references", [])
     state["logs"] = state.get("logs", [])
     queries = ai_message.tool_calls[0]["args"]["queries"]
 
@@ -56,26 +56,26 @@ async def search_node(state: AgentState, config: RunnableConfig):
     config = copilotkit_customize_config(
         config,
         emit_intermediate_state=[{
-            "state_key": "resources",
-            "tool": "ExtractResources",
-            "tool_argument": "resources",
+            "state_key": "references",
+            "tool": "ExtractReferences",
+            "tool_argument": "references",
         }],
     )
 
-    model = get_model(state)
+    model = Model.get_model(FACTUAL_MODEL)
     ainvoke_kwargs = {}
     if model.__class__.__name__ in ["ChatOpenAI"]:
         ainvoke_kwargs["parallel_tool_calls"] = False
 
-    # figure out which resources to use
+    # figure out which references to use
     response = await model.bind_tools(
-        [ExtractResources],
-        tool_choice="ExtractResources",
+        [ExtractReferences],
+        tool_choice="ExtractReferences",
         **ainvoke_kwargs
     ).ainvoke([
         SystemMessage(
             content="""
-            You need to extract the 3-5 most relevant resources from the following search results.
+            You need to extract the 3-5 most relevant references from the following search results.
             """
         ),
         *state["messages"],
@@ -89,13 +89,13 @@ async def search_node(state: AgentState, config: RunnableConfig):
     await copilotkit_emit_state(config, state)
 
     ai_message_response = cast(AIMessage, response)
-    resources = ai_message_response.tool_calls[0]["args"]["resources"]
+    references = ai_message_response.tool_calls[0]["args"]["references"]
 
-    state["resources"].extend(resources)
+    state["references"].extend(references)
 
     state["messages"].append(ToolMessage(
         tool_call_id=ai_message.tool_calls[0]["id"],
-        content=f"Added the following resources: {resources}"
+        content=f"Added the following references: {references}"
     ))
 
     return state

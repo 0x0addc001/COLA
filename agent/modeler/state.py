@@ -6,9 +6,9 @@ It defines the state of the agent and the state of the conversation.
 from typing import List, TypedDict
 from langgraph.graph import MessagesState
 
-class Resource(TypedDict):
+class Reference(TypedDict):
     """
-    Represents a resource. Give it a good title and a short description.
+    Represents a plan reference. Give it a precise title and a short description.
     """
     url: str
     title: str
@@ -26,8 +26,7 @@ class AgentState(MessagesState):
     This is the state of the agent.
     It is a subclass of the MessagesState class from langgraph.
     """
-    model: str
-    research_question: str
-    report: str
-    resources: List[Resource]
+    project_settings: str
+    plan_references: List[Reference]
+    design_plan: str
     logs: List[Log]

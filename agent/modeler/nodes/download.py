@@ -7,22 +7,22 @@ import html2text
 from copilotkit.langgraph import copilotkit_emit_state
 from langchain_core.runnables import RunnableConfig
 
-from formulation_agent.state import AgentState
+from modeler.state import AgentState
 
-_RESOURCE_CACHE = {}
+_REFERENCE_CACHE = {}
 
-def get_resource(url: str):
+def get_reference(url: str):
     """
-    Get a resource from the cache.
+    Get a reference from the cache.
     """
-    return _RESOURCE_CACHE.get(url, "")
+    return _REFERENCE_CACHE.get(url, "")
 
-
+#  Mimicking a Chrome browser’s User-Agent, the request could bypass basic anti-scraping measures
 _USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3" # pylint: disable=line-too-long
 
-async def _download_resource(url: str):
+async def _download_reference(url: str):
     """
-    Download a resource from the internet asynchronously.
+    Download a reference from the internet asynchronously.
     """
     try:
         async with aiohttp.ClientSession() as session:
@@ -34,37 +34,37 @@ async def _download_resource(url: str):
                 response.raise_for_status()
                 html_content = await response.text()
                 markdown_content = html2text.html2text(html_content)
-                _RESOURCE_CACHE[url] = markdown_content
+                _REFERENCE_CACHE[url] = markdown_content
                 return markdown_content
     except Exception as e: # pylint: disable=broad-except
-        _RESOURCE_CACHE[url] = "ERROR"
-        return f"Error downloading resource: {e}"
+        _REFERENCE_CACHE[url] = "ERROR"
+        return f"Error downloading reference: {e}"
 
 async def download_node(state: AgentState, config: RunnableConfig):
     """
-    Download resources from the internet.
+    Download references from the internet.
     """
-    state["resources"] = state.get("resources", [])
+    state["references"] = state.get("references", [])
     state["logs"] = state.get("logs", [])
-    resources_to_download = []
+    references_to_download = []
 
     logs_offset = len(state["logs"])
 
-    # Find resources that are not downloaded
-    for resource in state["resources"]:
-        if not get_resource(resource["url"]):
-            resources_to_download.append(resource)
+    # Find references that are not downloaded
+    for reference in state["references"]:
+        if not get_reference(reference["url"]):
+            references_to_download.append(reference)
             state["logs"].append({
-                "message": f"Downloading {resource['url']}",
+                "message": f"Downloading {reference['url']}",
                 "done": False
             })
 
     # Emit the state to let the UI update
     await copilotkit_emit_state(config, state)
 
-    # Download the resources
-    for i, resource in enumerate(resources_to_download):
-        await _download_resource(resource["url"])
+    # Download the references
+    for i, reference in enumerate(references_to_download):
+        await _download_reference(reference["url"])
         state["logs"][logs_offset + i]["done"] = True
 
         # update UI

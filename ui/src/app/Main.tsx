@@ -40,10 +40,12 @@ export default function Main() {
           style={
             {
               "--copilot-kit-background-color": "#E0E9FD",
-              "--copilot-kit-secondary-color": "#6766FC",
               "--copilot-kit-separator-color": "#b8b8b8",
-              "--copilot-kit-primary-color": "#FFFFFF",
-              "--copilot-kit-contrast-color": "#000000",
+
+              "--copilot-kit-primary-color": "#FFF",
+              "--copilot-kit-secondary-color": "#6766FC",
+
+              "--copilot-kit-contrast-color": "#000",
               "--copilot-kit-secondary-contrast-color": "#000",
             } as any
           }
@@ -56,7 +58,7 @@ export default function Main() {
               await new Promise((resolve) => setTimeout(resolve, 30));
             }}
             labels={{
-              initial: "Hi! How can I assist you with your research today?",
+              initial: "Hey, just tell me about your design!😊🥤",
             }}
           />
         </div>

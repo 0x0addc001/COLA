@@ -2028,7 +2028,7 @@ files = [
 [[package]]
 name = "jsonref"
 version = "1.1.0"
-description = "jsonref is a library for automatic dereferencing of JSON Reference objects for Python."
+description = "jsonref is a library for automatic dereferencing of JSON PlanReference objects for Python."
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
@@ -2434,7 +2434,7 @@ orjson = ">=3.10.1"
 [[package]]
 name = "langsmith"
 version = "0.1.147"
-description = "Client library to connect to the LangSmith LLM Tracing and Evaluation Platform."
+description = "Client library to connect to the LangSmith Model Tracing and Evaluation Platform."
 optional = false
 python-versions = "<4.0,>=3.8.1"
 groups = ["main"]
@@ -2459,7 +2459,7 @@ langsmith-pyo3 = ["langsmith-pyo3 (>=0.1.0rc2,<0.2.0)"]
 [[package]]
 name = "litellm"
 version = "1.60.2"
-description = "Library to easily interface with LLM API providers"
+description = "Library to easily interface with Model API providers"
 optional = false
 python-versions = "!=2.7.*,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,!=3.7.*,>=3.8"
 groups = ["main"]

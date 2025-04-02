@@ -3,7 +3,7 @@
   "dockerfile_lines": [],
   "dependencies": ["."],
   "graphs": {
-    "formulation_agent": "./formulation_agent/graph.py:graph"
+    "modeler": "./modeler/graph.py:graph"
   },
   "env": ".env"
 }

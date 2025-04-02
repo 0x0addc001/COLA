@@ -34,20 +34,20 @@ export function AddResourceDialog({
           size="sm"
           className="text-sm font-bold text-[#6766FC]"
         >
-          Add Resource <PlusCircle className="w-6 h-6 ml-2" />
+          Add References <PlusCircle className="w-6 h-6 ml-2" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Resource</DialogTitle>
+          <DialogTitle>Add New PlanReference</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="new-url" className="text-sm font-bold">
-            Resource URL
+            PlanReference URL
           </label>
           <Input
             id="new-url"
-            placeholder="Resource URL"
+            placeholder="PlanReference URL"
             value={newResource.url || ""}
             onChange={(e) =>
               setNewResource({ ...newResource, url: e.target.value })
@@ -56,11 +56,11 @@ export function AddResourceDialog({
             className="bg-background"
           />
           <label htmlFor="new-title" className="text-sm font-bold">
-            Resource Title
+            PlanReference Title
           </label>
           <Input
             id="new-title"
-            placeholder="Resource Title"
+            placeholder="PlanReference Title"
             value={newResource.title || ""}
             onChange={(e) =>
               setNewResource({ ...newResource, title: e.target.value })
@@ -69,11 +69,11 @@ export function AddResourceDialog({
             className="bg-background"
           />
           <label htmlFor="new-description" className="text-sm font-bold">
-            Resource Description
+            PlanReference Description
           </label>
           <Textarea
             id="new-description"
-            placeholder="Resource Description"
+            placeholder="PlanReference Description"
             value={newResource.description || ""}
             onChange={(e) =>
               setNewResource({
@@ -92,7 +92,7 @@ export function AddResourceDialog({
             !newResource.url || !newResource.title || !newResource.description
           }
         >
-          <Plus className="w-4 h-4 mr-2" /> Add Resource
+          <Plus className="w-4 h-4 mr-2" /> Add PlanReference
         </Button>
       </DialogContent>
     </Dialog>

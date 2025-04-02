@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "research_canvas"
+name = "COLA"
 version = "0.1.0"
-description = "Research Canvas"
+description = "COpilot for Landscape Architecture"
 authors = ["Markus Ecker <markus.ecker@gmail.com>"]
 license = "MIT"
 packages = [
-    { include = "formulation_agent" },
-#    { include = "translation_agent" },
-#    { include = "visualization_agent" },
+    { include = "modeler" },
+#    { include = "adapter" },
+#    { include = "renderer" },
 ]
 
 [project]

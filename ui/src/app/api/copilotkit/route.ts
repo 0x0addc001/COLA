@@ -21,15 +21,15 @@ export const POST = async (req: NextRequest) => {
         //   langsmithApiKey,
         //   agents: [
         //     {
-        //       name: "formulation_agent",
+        //       name: "modeler",
         //       description: "Formulation Agent",
         //     },
         //     {
-        //       name: "translation_agent",
+        //       name: "adapter",
         //       description: "Translation Agent",
         //     },
         //     {
-        //       name: "visualization_agent",
+        //       name: "renderer",
         //       description: "Visualization Agent",
         //     },
         //   ],

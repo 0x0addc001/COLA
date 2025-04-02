@@ -39,11 +39,11 @@ export const ModelSelectorProvider = ({
       ? null
       : new URL(window.location.href).searchParams.get("lgcDeploymentUrl");
 
-  let agent = "formulation_agent";
+  let agent = "modeler";
   if (model === "google_genai") {
-    agent = "formulation_agent_google_genai";
+    agent = "modeler_google_genai";
   } else if (model === "crewai") {
-    agent = "formulation_agent_crewai";
+    agent = "modeler_crewai";
   }
 
   return (

@@ -30,15 +30,15 @@ export function EditResourceDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Resource</DialogTitle>
+          <DialogTitle>Edit PlanReference</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="edit-url" className="text-sm font-bold">
-            Resource URL
+            PlanReference URL
           </label>
           <Input
             id="edit-url"
-            placeholder="Resource URL"
+            placeholder="PlanReference URL"
             value={editResource?.url || ""}
             onChange={(e) =>
               setEditResource((prev) =>
@@ -49,11 +49,11 @@ export function EditResourceDialog({
             className="bg-background"
           />
           <label htmlFor="edit-title" className="text-sm font-bold">
-            Resource Title
+            PlanReference Title
           </label>
           <Input
             id="edit-title"
-            placeholder="Resource Title"
+            placeholder="PlanReference Title"
             value={editResource?.title || ""}
             onChange={(e) =>
               setEditResource((prev: any) =>
@@ -64,11 +64,11 @@ export function EditResourceDialog({
             className="bg-background"
           />
           <label htmlFor="edit-description" className="text-sm font-bold">
-            Resource Description
+            PlanReference Description
           </label>
           <Textarea
             id="edit-description"
-            placeholder="Resource Description"
+            placeholder="PlanReference Description"
             value={editResource?.description || ""}
             onChange={(e) =>
               setEditResource((prev) =>
