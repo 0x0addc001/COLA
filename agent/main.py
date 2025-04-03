@@ -19,16 +19,16 @@ sdk = CopilotKitRemoteEndpoint(
             description="modeler",
             graph=modeler_graph,
         ),
-        # LangGraphAgent(
-        #     name="adapter",
-        #     description="adapter",
-        #     graph=adapter_graph,
-        # ),
-        # LangGraphAgent(
-        #     name="renderer",
-        #     description="renderer",
-        #     graph=renderer_graph,
-        # ),
+        LangGraphAgent(
+            name="adapter",
+            description="adapter",
+            graph=modeler_graph,
+        ),
+        LangGraphAgent(
+            name="renderer",
+            description="renderer",
+            graph=modeler_graph,
+        ),
     ],
 )
 

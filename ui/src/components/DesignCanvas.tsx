@@ -9,19 +9,18 @@ import {
   useCopilotAction,
 } from "@copilotkit/react-core";
 import { Progress } from "./Progress";
-import { EditResourceDialog } from "./EditResourceDialog";
-import { AddResourceDialog } from "./AddResourceDialog";
-import { Resources } from "./Resources";
-import { AgentState, Resource } from "@/lib/types";
-import { useModelSelectorContext } from "@/lib/model-selector-provider";
+import { EditReferenceDialog } from "./EditReferenceDialog";
+import { AddReferenceDialog } from "./AddReferenceDialog";
+import { References } from "./References";
+import { AgentState, Reference } from "@/lib/types";
+import { useAgentSelectorContext } from "@/lib/agent-selector-provider";
 
-export function ResearchCanvas() {
-  const { model, agent } = useModelSelectorContext();
+export function DesignCanvas() {
+  const { agent } = useAgentSelectorContext();
 
   const { state, setState } = useCoAgent<AgentState>({
     name: agent,
     initialState: {
-      model,
     },
   });
 
@@ -35,10 +34,10 @@ export function ResearchCanvas() {
     },
   });
 
-  useCopilotAction({ // Human-in-the-loop delete resources
-    name: "DeleteResources",
+  useCopilotAction({ // Human-in-the-loop delete references
+    name: "DeleteReferences",
     description:
-      "Prompt the user for resource delete confirmation, and then perform resource deletion",
+      "Prompt the user for reference delete confirmation, and then perform reference deletion",
     available: "remote",
     parameters: [
       {
@@ -50,14 +49,14 @@ export function ResearchCanvas() {
       return (
         <div
           className=""
-          data-test-id="delete-resource-generative-ui-container"
+          data-test-id="delete-reference-generative-ui-container"
         >
           <div className="font-bold text-base mb-2">
-            Delete these resources?
+            Delete these references?
           </div>
-          <Resources
-            resources={resources.filter((resource) =>
-              (args.urls || []).includes(resource.url)
+          <References
+            references={references.filter((reference) =>
+              (args.urls || []).includes(reference.url)
             )}
             customWidth={200}
           />
@@ -83,53 +82,53 @@ export function ResearchCanvas() {
     },
   });
 
-  const resources: Resource[] = state.resources || [];
-  const setResources = (resources: Resource[]) => {
-    setState({ ...state, resources });
+  const references: Reference[] = state.references || [];
+  const setReferences = (references: Reference[]) => {
+    setState({ ...state, references });
   };
 
-  // const [resources, setResources] = useState<PlanReference[]>(dummyResources);
-  const [newResource, setNewResource] = useState<Resource>({
+  // const [references, setReferences] = useState<Reference[]>(dummyReferences);
+  const [newReference, setNewReference] = useState<Reference>({
     url: "",
     title: "",
     description: "",
   });
-  const [isAddResourceOpen, setIsAddResourceOpen] = useState(false);
+  const [isAddReferenceOpen, setIsAddReferenceOpen] = useState(false);
 
-  const addResource = () => {
-    if (newResource.url) {
-      setResources([...resources, { ...newResource }]);
-      setNewResource({ url: "", title: "", description: "" });
-      setIsAddResourceOpen(false);
+  const addReference = () => {
+    if (newReference.url) {
+      setReferences([...references, { ...newReference }]);
+      setNewReference({ url: "", title: "", description: "" });
+      setIsAddReferenceOpen(false);
     }
   };
 
-  const removeResource = (url: string) => {
-    setResources(
-      resources.filter((resource: Resource) => resource.url !== url)
+  const removeReference = (url: string) => {
+    setReferences(
+      references.filter((reference: Reference) => reference.url !== url)
     );
   };
 
-  const [editResource, setEditResource] = useState<Resource | null>(null);
+  const [editReference, setEditReference] = useState<Reference | null>(null);
   const [originalUrl, setOriginalUrl] = useState<string | null>(null);
-  const [isEditResourceOpen, setIsEditResourceOpen] = useState(false);
+  const [isEditReferenceOpen, setIsEditReferenceOpen] = useState(false);
 
-  const handleCardClick = (resource: Resource) => {
-    setEditResource({ ...resource }); // Ensure a new object is created
-    setOriginalUrl(resource.url); // Store the original URL
-    setIsEditResourceOpen(true);
+  const handleCardClick = (reference: Reference) => {
+    setEditReference({ ...reference }); // Ensure a new object is created
+    setOriginalUrl(reference.url); // Store the original URL
+    setIsEditReferenceOpen(true);
   };
 
-  const updateResource = () => {
-    if (editResource && originalUrl) {
-      setResources(
-        resources.map((resource) =>
-          resource.url === originalUrl ? { ...editResource } : resource
+  const updateReference = () => {
+    if (editReference && originalUrl) {
+      setReferences(
+        references.map((reference) =>
+          reference.url === originalUrl ? { ...editReference } : reference
         )
       );
-      setEditResource(null);
+      setEditReference(null);
       setOriginalUrl(null);
-      setIsEditResourceOpen(false);
+      setIsEditReferenceOpen(false);
     }
   };
 
@@ -142,21 +141,21 @@ export function ResearchCanvas() {
           </h2>
           {/*<Input*/}
           {/*  // placeholder="Enter your project settings"*/}
-          {/*  value={state.research_question || ""}*/}
+          {/*  value={state.project_settings || ""}*/}
           {/*  onChange={(e) =>*/}
-          {/*    setState({ ...state, research_question: e.target.value })*/}
+          {/*    setState({ ...state, project_settings: e.target.value })*/}
           {/*  }*/}
-          {/*  aria-label="Research question"*/}
+          {/*  aria-label="Project settings"*/}
           {/*  className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"*/}
           {/*  style={{ minHeight: "200px" }}*/}
           {/*/>*/}
           <Textarea
             // placeholder="Enter your project settings"
-            value={state.research_question || ""}
+            value={state.project_settings || ""}
             onChange={(e) =>
-              setState({ ...state, research_question: e.target.value })
+              setState({ ...state, project_settings: e.target.value })
             }
-            aria-label="Research question"
+            aria-label="Project settings"
             className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
             style={{ minHeight: "200px" }}
           />
@@ -165,32 +164,32 @@ export function ResearchCanvas() {
         <div>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-medium text-primary">Plan References</h2>
-            <EditResourceDialog
-              isOpen={isEditResourceOpen}
-              onOpenChange={setIsEditResourceOpen}
-              editResource={editResource}
-              setEditResource={setEditResource}
-              updateResource={updateResource}
+            <EditReferenceDialog
+              isOpen={isEditReferenceOpen}
+              onOpenChange={setIsEditReferenceOpen}
+              editReference={editReference}
+              setEditReference={setEditReference}
+              updateReference={updateReference}
             />
-            <AddResourceDialog
-              isOpen={isAddResourceOpen}
-              onOpenChange={setIsAddResourceOpen}
-              newResource={newResource}
-              setNewResource={setNewResource}
-              addResource={addResource}
+            <AddReferenceDialog
+              isOpen={isAddReferenceOpen}
+              onOpenChange={setIsAddReferenceOpen}
+              newReference={newReference}
+              setNewReference={setNewReference}
+              addReference={addReference}
             />
           </div>
-          {resources.length === 0 && (
+          {references.length === 0 && (
             <div className="text-sm text-slate-400">
               Click the button above to add references.
             </div>
           )}
 
-          {resources.length !== 0 && (
-            <Resources
-              resources={resources}
+          {references.length !== 0 && (
+            <References
+              references={references}
               handleCardClick={handleCardClick}
-              removeResource={removeResource}
+              removeReference={removeReference}
             />
           )}
         </div>
@@ -200,12 +199,12 @@ export function ResearchCanvas() {
             Design Plan
           </h2>
           <Textarea
-            data-test-id="research-draft"
-            // placeholder="Write your research draft here"
-            value={state.report || ""}
-            onChange={(e) => setState({ ...state, report: e.target.value })}
+            data-test-id="design-plan"
+            // placeholder="Write your design plan here"
+            value={state.design_plan || ""}
+            onChange={(e) => setState({ ...state, design_plan: e.target.value })}
             rows={10}
-            aria-label="Research draft"
+            aria-label="Design plan"
             className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
             style={{ minHeight: "200px" }}
           />
@@ -216,12 +215,12 @@ export function ResearchCanvas() {
             Plan2Image Prompt
           </h2>
           <Textarea
-            data-test-id="research-draft2"
+            data-test-id="plan2img-prompt"
             // placeholder="Write your research draft here"
-            value={state.report || ""}
-            onChange={(e) => setState({ ...state, report: e.target.value })}
+            value={state.plan2img_prompt || ""}
+            onChange={(e) => setState({ ...state, plan2img_prompt: e.target.value })}
             rows={10}
-            aria-label="Research draft"
+            aria-label="Plan2Image prompt"
             className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
             style={{ minHeight: "200px" }}
           />
@@ -230,32 +229,32 @@ export function ResearchCanvas() {
         <div>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-medium text-primary">Image References</h2>
-            <EditResourceDialog
-              isOpen={isEditResourceOpen}
-              onOpenChange={setIsEditResourceOpen}
-              editResource={editResource}
-              setEditResource={setEditResource}
-              updateResource={updateResource}
+            <EditReferenceDialog
+              isOpen={isEditReferenceOpen}
+              onOpenChange={setIsEditReferenceOpen}
+              editReference={editReference}
+              setEditReference={setEditReference}
+              updateReference={updateReference}
             />
-            <AddResourceDialog
-              isOpen={isAddResourceOpen}
-              onOpenChange={setIsAddResourceOpen}
-              newResource={newResource}
-              setNewResource={setNewResource}
-              addResource={addResource}
+            <AddReferenceDialog
+              isOpen={isAddReferenceOpen}
+              onOpenChange={setIsAddReferenceOpen}
+              newReference={newReference}
+              setNewReference={setNewReference}
+              addReference={addReference}
             />
           </div>
-          {resources.length === 0 && (
+          {references.length === 0 && (
             <div className="text-sm text-slate-400">
               Click the button above to add references.
             </div>
           )}
 
-          {resources.length !== 0 && (
-            <Resources
-              resources={resources}
+          {references.length !== 0 && (
+            <References
+              references={references}
               handleCardClick={handleCardClick}
-              removeResource={removeResource}
+              removeReference={removeReference}
             />
           )}
         </div>
@@ -265,10 +264,10 @@ export function ResearchCanvas() {
             Prototype Image
           </h2>
           <Textarea
-            data-test-id="research-draft3"
+            data-test-id="prototype-image"
             // placeholder="Write your research draft here"
-            value={state.report || ""}
-            onChange={(e) => setState({ ...state, report: e.target.value })}
+            value={state.prototype_img || ""}
+            onChange={(e) => setState({ ...state, prototype_img: e.target.value })}
             rows={10}
             aria-label="Research draft"
             className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"

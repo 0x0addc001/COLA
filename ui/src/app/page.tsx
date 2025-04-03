@@ -3,22 +3,22 @@
 import { CopilotKit } from "@copilotkit/react-core";
 import Main from "./Main";
 import {
-  ModelSelectorProvider,
-  useModelSelectorContext,
-} from "@/lib/model-selector-provider";
-import { ModelSelector } from "@/components/ModelSelector";
+  AgentSelectorProvider,
+  useAgentSelectorContext,
+} from "@/lib/agent-selector-provider";
+import { AgentSelector } from "@/components/AgentSelector";
 
 export default function ModelSelectorWrapper() {
   return (
-    <ModelSelectorProvider>
+    <AgentSelectorProvider>
       <Home />
-      <ModelSelector />
-    </ModelSelectorProvider>
+      <AgentSelector />
+    </AgentSelectorProvider>
   );
 }
 
 function Home() {
-  const { agent, lgcDeploymentUrl } = useModelSelectorContext();
+  const { agent, lgcDeploymentUrl } = useAgentSelectorContext();
 
   // This logic is implemented to demonstrate multi-agent frameworks in this demo project.
   // There are cleaner ways to handle this in a production environment.

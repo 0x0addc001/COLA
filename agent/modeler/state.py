@@ -27,6 +27,6 @@ class AgentState(MessagesState):
     It is a subclass of the MessagesState class from langgraph.
     """
     project_settings: str
-    plan_references: List[Reference]
+    references: List[Reference]
     design_plan: str
     logs: List[Log]

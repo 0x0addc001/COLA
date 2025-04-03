@@ -7,85 +7,85 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Resource } from "@/lib/types";
+import { Reference } from "@/lib/types";
 
 type EditResourceDialogProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  editResource: Resource | null;
-  setEditResource: (
-    resource: ((prev: Resource | null) => Resource | null) | Resource | null
+  editReference: Reference | null;
+  setEditReference: (
+    reference: ((prev: Reference | null) => Reference | null) | Reference | null
   ) => void;
-  updateResource: () => void;
+  updateReference: () => void;
 };
 
-export function EditResourceDialog({
+export function EditReferenceDialog({
   isOpen,
   onOpenChange,
-  editResource,
-  setEditResource,
-  updateResource,
+  editReference,
+  setEditReference,
+  updateReference,
 }: EditResourceDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit PlanReference</DialogTitle>
+          <DialogTitle>Edit Reference</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="edit-url" className="text-sm font-bold">
-            PlanReference URL
+            Reference URL
           </label>
           <Input
             id="edit-url"
-            placeholder="PlanReference URL"
-            value={editResource?.url || ""}
+            placeholder="Reference URL"
+            value={editReference?.url || ""}
             onChange={(e) =>
-              setEditResource((prev) =>
+              setEditReference((prev) =>
                 prev ? { ...prev, url: e.target.value } : null
               )
             }
-            aria-label="Edit resource URL"
+            aria-label="Edit reference URL"
             className="bg-background"
           />
           <label htmlFor="edit-title" className="text-sm font-bold">
-            PlanReference Title
+            Reference Title
           </label>
           <Input
             id="edit-title"
-            placeholder="PlanReference Title"
-            value={editResource?.title || ""}
+            placeholder="Reference Title"
+            value={editReference?.title || ""}
             onChange={(e) =>
-              setEditResource((prev: any) =>
+              setEditReference((prev: any) =>
                 prev ? { ...prev, title: e.target.value } : null
               )
             }
-            aria-label="Edit resource title"
+            aria-label="Edit reference title"
             className="bg-background"
           />
           <label htmlFor="edit-description" className="text-sm font-bold">
-            PlanReference Description
+            Reference Description
           </label>
           <Textarea
             id="edit-description"
-            placeholder="PlanReference Description"
-            value={editResource?.description || ""}
+            placeholder="Reference Description"
+            value={editReference?.description || ""}
             onChange={(e) =>
-              setEditResource((prev) =>
+              setEditReference((prev) =>
                 prev ? { ...prev, description: e.target.value } : null
               )
             }
-            aria-label="Edit resource description"
+            aria-label="Edit reference description"
             className="bg-background"
           />
         </div>
         <Button
-          onClick={updateResource}
+          onClick={updateReference}
           className="w-full bg-[#6766FC] text-white"
           disabled={
-            !editResource?.url ||
-            !editResource?.title ||
-            !editResource?.description
+            !editReference?.url ||
+            !editReference?.title ||
+            !editReference?.description
           }
         >
           Save Changes

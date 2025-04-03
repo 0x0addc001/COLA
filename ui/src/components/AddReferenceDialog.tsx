@@ -9,23 +9,23 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Plus } from "lucide-react";
-import { Resource } from "@/lib/types";
+import { Reference } from "@/lib/types";
 
-type AddResourceDialogProps = {
+type AddReferenceDialogProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  newResource: Resource;
-  setNewResource: (resource: Resource) => void;
-  addResource: () => void;
+  newReference: Reference;
+  setNewReference: (reference: Reference) => void;
+  addReference: () => void;
 };
 
-export function AddResourceDialog({
+export function AddReferenceDialog({
   isOpen,
   onOpenChange,
-  newResource,
-  setNewResource,
-  addResource,
-}: AddResourceDialogProps) {
+  newReference,
+  setNewReference,
+  addReference,
+}: AddReferenceDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
@@ -39,60 +39,60 @@ export function AddResourceDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New PlanReference</DialogTitle>
+          <DialogTitle>Add New Reference</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="new-url" className="text-sm font-bold">
-            PlanReference URL
+            Reference URL
           </label>
           <Input
             id="new-url"
-            placeholder="PlanReference URL"
-            value={newResource.url || ""}
+            placeholder="Reference URL"
+            value={newReference.url || ""}
             onChange={(e) =>
-              setNewResource({ ...newResource, url: e.target.value })
+              setNewReference({ ...newReference, url: e.target.value })
             }
-            aria-label="New resource URL"
+            aria-label="New reference URL"
             className="bg-background"
           />
           <label htmlFor="new-title" className="text-sm font-bold">
-            PlanReference Title
+            Reference Title
           </label>
           <Input
             id="new-title"
-            placeholder="PlanReference Title"
-            value={newResource.title || ""}
+            placeholder="Reference Title"
+            value={newReference.title || ""}
             onChange={(e) =>
-              setNewResource({ ...newResource, title: e.target.value })
+              setNewReference({ ...newReference, title: e.target.value })
             }
-            aria-label="New resource title"
+            aria-label="New reference title"
             className="bg-background"
           />
           <label htmlFor="new-description" className="text-sm font-bold">
-            PlanReference Description
+            Reference Description
           </label>
           <Textarea
             id="new-description"
-            placeholder="PlanReference Description"
-            value={newResource.description || ""}
+            placeholder="Reference Description"
+            value={newReference.description || ""}
             onChange={(e) =>
-              setNewResource({
-                ...newResource,
+              setNewReference({
+                ...newReference,
                 description: e.target.value,
               })
             }
-            aria-label="New resource description"
+            aria-label="New reference description"
             className="bg-background"
           />
         </div>
         <Button
-          onClick={addResource}
+          onClick={addReference}
           className="w-full bg-[#6766FC] text-white"
           disabled={
-            !newResource.url || !newResource.title || !newResource.description
+            !newReference.url || !newReference.title || !newReference.description
           }
         >
-          <Plus className="w-4 h-4 mr-2" /> Add PlanReference
+          <Plus className="w-4 h-4 mr-2" /> Add Reference
         </Button>
       </DialogContent>
     </Dialog>

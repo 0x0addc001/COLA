@@ -3,7 +3,9 @@
   "dockerfile_lines": [],
   "dependencies": ["."],
   "graphs": {
-    "modeler": "./modeler/graph.py:graph"
+    "modeler": "./modeler/graph.py:graph",
+    "adapter": "./adapter/graph.py:graph",
+    "renderer": "./renderer/graph.py:graph"
   },
   "env": ".env"
 }

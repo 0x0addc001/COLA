@@ -22,15 +22,15 @@ export const POST = async (req: NextRequest) => {
         //   agents: [
         //     {
         //       name: "modeler",
-        //       description: "Formulation Agent",
+        //       description: "modeler",
         //     },
         //     {
         //       name: "adapter",
-        //       description: "Translation Agent",
+        //       description: "adapter",
         //     },
         //     {
         //       name: "renderer",
-        //       description: "Visualization Agent",
+        //       description: "renderer",
         //     },
         //   ],
         // })
