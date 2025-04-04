@@ -17,20 +17,12 @@ def Search(queries: List[str]): # pylint: disable=invalid-name,unused-argument
     """A list of one or more search queries to find good references to support the design."""
 
 @tool
-def WriteDesignPlan(design_plan: str): # pylint: disable=invalid-name,unused-argument
-    """Write the design plan."""
-
-@tool
-def WriteProjectSettings(project_settings: str): # pylint: disable=invalid-name,unused-argument
-    """Write the project settings."""
-
-@tool
-def DeleteReferences(urls: List[str]): # pylint: disable=invalid-name,unused-argument
-    """Delete the URLs from the references."""
+def WritePlan2ImgPrompt(plan2img_prompt: str): # pylint: disable=invalid-name,unused-argument
+    """Write the plan2img prompt."""
 
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> \
-    Command[Literal["search_node", "chat_node", "delete_node", "__end__"]]:
+    Command[Literal["search_node", "__end__"]]:
     """
     Chat Node
     """
@@ -38,31 +30,18 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     config = copilotkit_customize_config(
         config,
         emit_intermediate_state=[{ # Lets you emit tool calls as streaming LangGraph state.
-            "state_key": "design_plan",
-            "tool": "WriteDesignPlan",
-            "tool_argument": "design_plan",
-        }, {
-            "state_key": "project_settings",
-            "tool": "WriteProjectSettings",
-            "tool_argument": "project_settings",
+            "state_key": "plan2img_prompt",
+            "tool": "WritePlan2ImgPrompt",
+            "tool_argument": "plan2img_prompt",
         }],
     )
 
-    state["references"] = state.get("references", [])
-    project_settings = state.get("project_settings", "")
     design_plan = state.get("design_plan", "")
+    plan2img_prompt = state.get("plan2img_prompt", "")
 
-    references = []
-
-    for reference in state["references"]:
-        content = get_reference(reference["url"])
-        if content == "ERROR":
-            continue
-        references.append({
-            **reference,
-            "content": content
-        })
-
+    with open("vocab.txt", "r", encoding="utf-8") as file:
+        references = file.read()
+        print("````````````chat.py:references:", references)
 
     # print("````````````chat.py:state:", state)
 
@@ -76,9 +55,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     response = await model.bind_tools(
         [
             Search,
-            WriteDesignPlan,
-            WriteProjectSettings,
-            DeleteReferences,
+            WritePlan2ImgPrompt,
         ],
         **ainvoke_kwargs  # Pass the kwargs conditionally
     ).ainvoke([
@@ -100,19 +77,18 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
         #     {references}
         #     """
             content=f"""
-                你是一位景观设计助手，负责协助用户撰写景观设计方案。
-                在撰写设计方案之前，你应使用 Search 工具查找参考资料。
-                不要照搬参考资料的内容，而是从中提炼出能够满足用户项目需求的特征，并在你的设计中创造性地加以运用。
-                当你完成设计方案撰写后，应主动询问用户下一步的需求、修改意见等，使设计方案更加全面且富有吸引力。
-                撰写设计方案时，你应使用 WriteDesignPlan 工具。绝对不能直接回复设计方案内容，只能使用该工具。
-
-                以下是项目设定：
-                {project_settings}
+                你是一位景观设计助手，负责协助用户撰写plan2image提示词（即将景观设计方案改写成用于Stable Diffusion图像生成的提示词，要求使用英文）。
+                在撰写plan2image提示词时，你应查找并使用参考资料中的专业词汇。
+                当你完成plan2image提示词撰写后，应主动询问用户下一步的需求、修改意见等，使提示词更加全面且富有吸引力。
+                撰写plan2image提示词时，你应使用 WritePlan2ImgPrompt 工具。绝对不能回复该工具，只能使用该工具。
 
                 以下是设计方案：
                 {design_plan}
+                
+                以下是plan2image提示词：
+                {plan2img_prompt}
 
-                以下是可供参考的资料：
+                以下是可供参考的专业词汇：
                 {references}
                 """
         ),
@@ -127,36 +103,20 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     ## Handle tool calls
     # reflexive tool calls
     if ai_message.tool_calls:
-        if ai_message.tool_calls[0]["name"] == "WriteProjectSettings":
+        if ai_message.tool_calls[0]["name"] == "WritePlan2ImgPrompt":
+            print("````````````chat.py:reflexive tool calls: WritePlan2ImgPrompt")
+            plan2img_prompt = ai_message.tool_calls[0]["args"].get("plan2img_prompt", "")
             return Command(
                 goto="chat_node",
                 update={
-                    "project_settings": ai_message.tool_calls[0]["args"]["project_settings"],
-                    "messages": [ai_message, ToolMessage(
-                        tool_call_id=ai_message.tool_calls[0]["id"],
-                        content="Project settings written."
-                    )]
-                }
-            )
-        if ai_message.tool_calls[0]["name"] == "WriteDesignPlan":
-            design_plan = ai_message.tool_calls[0]["args"].get("design_plan", "")
-            return Command(
-                goto="chat_node",
-                update={
-                    "design_plan": design_plan,
-                    "messages": [ai_message, ToolMessage(
-                    tool_call_id=ai_message.tool_calls[0]["id"],
-                    content="Design plan written."
-                    )]
+                    "plan2img_prompt": plan2img_prompt,
+                    "messages": [ai_message,
+                                 # Message for passing the result of executing a tool back to a model
+                                 ToolMessage(tool_call_id=ai_message.tool_calls[0]["id"],content="plan2image prompt written.")]
                 }
             )
     # non-reflexive tool calls
     goto = "__end__"
-    if ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "Search":
-        goto = "search_node"
-    elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "DeleteReferences":
-        goto = "delete_node"
-
 
     return Command(
         goto=goto,

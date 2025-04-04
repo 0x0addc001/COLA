@@ -8,7 +8,7 @@ from langgraph.graph import MessagesState
 
 class Reference(TypedDict):
     """
-    Represents a plan reference. Give it a precise title and a short description.
+    Represents a image reference. Give it a precise title and a short description.
     """
     url: str
     title: str
