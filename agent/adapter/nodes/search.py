@@ -11,8 +11,8 @@ from langchain.tools import tool
 from tavily import TavilyClient
 from copilotkit.langgraph import copilotkit_emit_state, copilotkit_customize_config
 
-from modeler.state import AgentState
-from modeler.model import Model, FACTUAL_MODEL
+from adapter.state import AgentState
+from adapter.model import Model, FACTUAL_MODEL
 
 class ReferenceInput(BaseModel):
     """A reference with a short description"""

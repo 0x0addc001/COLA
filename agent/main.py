@@ -10,6 +10,8 @@ from copilotkit import CopilotKitRemoteEndpoint, LangGraphAgent
 # from contextlib import asynccontextmanager
 
 from modeler.graph import graph as modeler_graph
+from adapter.graph import graph as adapter_graph
+from renderer.graph import graph as renderer_graph
 
 app = FastAPI()
 sdk = CopilotKitRemoteEndpoint(
@@ -22,12 +24,12 @@ sdk = CopilotKitRemoteEndpoint(
         LangGraphAgent(
             name="adapter",
             description="adapter",
-            graph=modeler_graph,
+            graph=adapter_graph,
         ),
         LangGraphAgent(
             name="renderer",
             description="renderer",
-            graph=modeler_graph,
+            graph=renderer_graph,
         ),
     ],
 )

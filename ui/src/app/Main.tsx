@@ -24,7 +24,7 @@ export default function Main() {
   return (
     <>
       <h1 className="flex h-[60px] bg-[#FFF] text-[#6766FC] items-center px-10 text-2xl font-medium">
-        🥤COLA: COpilot for Landscape Architecture
+        🥤COLA: COpilot for Landscape Architecture 景观设计助手
       </h1>
 
       <div
@@ -56,8 +56,9 @@ export default function Main() {
               setState({ ...state, logs: [] });
               await new Promise((resolve) => setTimeout(resolve, 30));
             }}
+            // "Hey, just tell me about your design!😊🥤"
             labels={{
-              initial: "Hey, just tell me about your design!😊🥤",
+              initial: "嘿，跟我说说你的设计吧！😊🥤",
             }}
           />
         </div>

@@ -7,9 +7,9 @@ from langchain.tools import tool
 from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 
-from modeler.state import AgentState
-from modeler.model import Model, CREATIVE_MODEL
-from modeler.nodes.download import get_reference
+from adapter.state import AgentState
+from adapter.model import Model, CREATIVE_MODEL
+from adapter.nodes.download import get_reference
 
 
 @tool

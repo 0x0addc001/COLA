@@ -34,7 +34,9 @@ export function AddReferenceDialog({
           size="sm"
           className="text-sm font-bold text-[#6766FC]"
         >
-          Add References <PlusCircle className="w-6 h-6 ml-2" />
+          {/*Add References */}
+          添加
+          <PlusCircle className="w-6 h-6 ml-2" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

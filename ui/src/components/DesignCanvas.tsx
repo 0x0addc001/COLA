@@ -135,26 +135,35 @@ export function DesignCanvas() {
   return (
     <div className="w-full h-full overflow-y-auto p-10 bg-[#F5F8FF]">
       <div className="space-y-8 pb-10">
-        <div>
+        {/*<div>*/}
+        {/*  <h2 className="text-lg font-medium mb-3 text-primary">*/}
+        {/*    /!*Project Settings*!/*/}
+        {/*    项目设定*/}
+        {/*  </h2>*/}
+        {/*  <Textarea*/}
+        {/*    // placeholder="Enter your project settings"*/}
+        {/*      // "Design Concept:\nFunctional Use:\nUser Profile:\nDesign Style:\nSensory Experience:\nLand Area:\nNecessary Landscape Elements:\nMaterial Preferences:\nPlant Preferences:\n"*/}
+        {/*    value={state.project_settings || "设计理念：\n功能用途：\n用户客群：\n感觉体验：\n用地面积：\n必要景观元素：\n材料偏好：\n植物偏好：\n"}*/}
+        {/*    onChange={(e) =>*/}
+        {/*      setState({ ...state, project_settings: e.target.value })*/}
+        {/*    }*/}
+        {/*    aria-label="Project settings"*/}
+        {/*    className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"*/}
+        {/*    style={{ minHeight: "200px" }}*/}
+        {/*  />*/}
+        {/*</div>*/}
+
+        <div className="flex flex-col h-full">
           <h2 className="text-lg font-medium mb-3 text-primary">
-            Project Settings
+            {/*Project Settings*/}
+            项目设定
           </h2>
-          {/*<Input*/}
-          {/*  // placeholder="Enter your project settings"*/}
-          {/*  value={state.project_settings || ""}*/}
-          {/*  onChange={(e) =>*/}
-          {/*    setState({ ...state, project_settings: e.target.value })*/}
-          {/*  }*/}
-          {/*  aria-label="Project settings"*/}
-          {/*  className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"*/}
-          {/*  style={{ minHeight: "200px" }}*/}
-          {/*/>*/}
           <Textarea
-            // placeholder="Enter your project settings"
-            value={state.project_settings || ""}
-            onChange={(e) =>
-              setState({ ...state, project_settings: e.target.value })
-            }
+            data-test-id="project_settings"
+            // placeholder="Write your project settings here"
+            value={state.project_settings || "设计理念：\n功能用途：\n用户客群：\n感觉体验：\n用地面积：\n必要景观元素：\n材料偏好：\n植物偏好：\n"}
+            onChange={(e) => setState({ ...state, project_settings: e.target.value })}
+            rows={10}
             aria-label="Project settings"
             className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
             style={{ minHeight: "200px" }}
@@ -163,7 +172,10 @@ export function DesignCanvas() {
 
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-medium text-primary">Plan References</h2>
+            <h2 className="text-lg font-medium text-primary">
+              {/*Plan References*/}
+              参考资料
+            </h2>
             <EditReferenceDialog
               isOpen={isEditReferenceOpen}
               onOpenChange={setIsEditReferenceOpen}
@@ -181,7 +193,8 @@ export function DesignCanvas() {
           </div>
           {references.length === 0 && (
             <div className="text-sm text-slate-400">
-              Click the button above to add references.
+              {/*Click the button above to add references.*/}
+              点击上方按钮添加参考资料
             </div>
           )}
 
@@ -196,7 +209,8 @@ export function DesignCanvas() {
 
         <div className="flex flex-col h-full">
           <h2 className="text-lg font-medium mb-3 text-primary">
-            Design Plan
+            {/*Design Plan*/}
+            设计方案
           </h2>
           <Textarea
             data-test-id="design-plan"
@@ -212,11 +226,12 @@ export function DesignCanvas() {
 
         <div className="flex flex-col h-full">
           <h2 className="text-lg font-medium mb-3 text-primary">
-            Plan2Image Prompt
+            {/*Plan2Image Prompt*/}
+            Plan2Image 提示词
           </h2>
           <Textarea
             data-test-id="plan2img-prompt"
-            // placeholder="Write your research draft here"
+            // placeholder="Write your plan2img prompt here"
             value={state.plan2img_prompt || ""}
             onChange={(e) => setState({ ...state, plan2img_prompt: e.target.value })}
             rows={10}
@@ -228,7 +243,10 @@ export function DesignCanvas() {
 
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-medium text-primary">Image References</h2>
+            <h2 className="text-lg font-medium text-primary">
+              {/*Image References*/}
+              参考图
+            </h2>
             <EditReferenceDialog
               isOpen={isEditReferenceOpen}
               onOpenChange={setIsEditReferenceOpen}
@@ -246,7 +264,8 @@ export function DesignCanvas() {
           </div>
           {references.length === 0 && (
             <div className="text-sm text-slate-400">
-              Click the button above to add references.
+              {/*Click the button above to add references.*/}
+              点击上方按钮添加参考图
             </div>
           )}
 
@@ -261,11 +280,12 @@ export function DesignCanvas() {
 
         <div className="flex flex-col h-full">
           <h2 className="text-lg font-medium mb-3 text-primary">
-            Prototype Image
+            {/*Prototype Image*/}
+            原型图
           </h2>
           <Textarea
             data-test-id="prototype-image"
-            // placeholder="Write your research draft here"
+            // placeholder=""
             value={state.prototype_img || ""}
             onChange={(e) => setState({ ...state, prototype_img: e.target.value })}
             rows={10}
