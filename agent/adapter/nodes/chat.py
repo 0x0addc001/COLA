@@ -36,7 +36,7 @@ def WritePlan2ImgPrompt(plan2img_prompt: str): # pylint: disable=invalid-name,un
 
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> \
-    Command[Literal["__end__"]]:
+    Command[Literal["chat_node", "__end__"]]:
     """
     Chat Node
     """
