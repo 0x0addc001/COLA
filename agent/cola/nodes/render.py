@@ -7,31 +7,26 @@ from langchain.tools import tool
 from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 
-from adapter.state import AgentState
-from adapter.model import Model, CREATIVE_MODEL
+from cola.state import AgentState
+from cola.model import Model, CREATIVE_MODEL
+from cola.nodes.download import get_reference
 
-
-import os
-current_directory = os.getcwd()
-print("当前工作目录：", current_directory)
-try:
-    with open(r"D:\ThesisProjects\COLA\agent\adapter\nodes\vocab.txt", "r", encoding="utf-8") as file:
-        references = file.read()
-        print("````````````chat.py:references:", references)
-except FileNotFoundError:
-    print("错误：文件未找到。请检查文件路径是否正确。")
-except UnicodeDecodeError:
-    print("错误：文件解码失败。请检查文件编码是否为 UTF-8。")
-except Exception as e:
-    print(f"发生未知错误：{e}")
 
 @tool
-def WritePlan2ImgPrompt(plan2img_prompt: str): # pylint: disable=invalid-name,unused-argument
-    """Write the plan2img prompt."""
+def Search(queries: List[str]): # pylint: disable=invalid-name,unused-argument
+    """A list of one or more search queries to find good references to support the design."""
+
+@tool
+def RenderPrototypeImgs(urls: List[str]): # pylint: disable=invalid-name,unused-argument
+    """Render the prototype images."""
+
+@tool
+def DeleteImgReferences(urls: List[str]): # pylint: disable=invalid-name,unused-argument
+    """Delete the URLs from the image references."""
 
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> \
-    Command[Literal["chat_node", "__end__"]]:
+    Command[Literal["render_node", "search_node", "delete_node", "__end__"]]:
     """
     Chat Node
     """
@@ -39,14 +34,27 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     config = copilotkit_customize_config(
         config,
         emit_intermediate_state=[{ # Lets you emit tool calls as streaming LangGraph state.
-            "state_key": "plan2img_prompt",
-            "tool": "WritePlan2ImgPrompt",
-            "tool_argument": "plan2img_prompt",
+            "state_key": "prototype_imgs",
+            "tool": "RenderPrototypeImgs",
+            "tool_argument": "prototype_imgs",
         }],
     )
 
-    design_plan = state.get("design_plan", "")
     plan2img_prompt = state.get("plan2img_prompt", "")
+    state["img_references"] = state.get("img_references", [])
+    prototype_img = state.get("prototype_img", [])
+
+    img_references = []
+
+    for img_reference in state["img_references"]:
+        content = get_reference(img_reference["url"])
+        if content == "ERROR":
+            continue
+        img_references.append({
+            **img_reference,
+            "content": content
+        })
+
 
     # print("````````````chat.py:state:", state)
 
@@ -59,7 +67,9 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
 
     response = await model.bind_tools(
         [
-            WritePlan2ImgPrompt,
+            Search,
+            RenderPrototypeImgs,
+            DeleteImgReferences,
         ],
         **ainvoke_kwargs  # Pass the kwargs conditionally
     ).ainvoke([
@@ -81,19 +91,20 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
         #     {references}
         #     """
             content=f"""
-                你是一位景观设计助手，负责协助用户撰写plan2image提示词（即将景观设计方案改写成用于Stable Diffusion图像生成的提示词，**要求必须全文使用英文**）。
-                在撰写plan2image提示词时，你应查找并使用参考资料中的专业词汇。
-                当你完成plan2image提示词撰写后，应主动询问用户下一步的需求、修改意见等，使提示词更加全面且富有吸引力。
-                为撰写plan2image提示词，你应使用 WritePlan2ImgPrompt 工具。
+                你是一位景观设计助手，负责协助用户渲染设计图。
+                在撰写设计方案之前，你应使用 Search 工具查找参考图。
+                不要照搬参考图，而是从中提炼出能够满足用户项目需求的风格或轮廓特征，并在你的设计中创造性地加以运用。
+                当你完成设计方案撰写后，应主动询问用户下一步的需求、修改意见等，使设计图更加全面且富有吸引力。
+                为渲染设计图，你应使用 RenderPrototypeImgs 工具。
 
-                以下是设计方案：
-                {design_plan}
-                
                 以下是plan2image提示词：
                 {plan2img_prompt}
 
-                以下是可供参考的专业词汇：
-                {references}
+                以下是设计图：
+                {prototype_img}
+
+                以下是可供参考的图片：
+                {img_references}
                 """
         ),
 
@@ -106,21 +117,15 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
 
     ## Handle tool calls
     # reflexive tool calls
-    if ai_message.tool_calls:
-        if ai_message.tool_calls[0]["name"] == "WritePlan2ImgPrompt":
-            print("````````````chat.py:reflexive tool calls: WritePlan2ImgPrompt")
-            plan2img_prompt = ai_message.tool_calls[0]["args"].get("plan2img_prompt", "")
-            return Command(
-                goto="chat_node",
-                update={
-                    "plan2img_prompt": plan2img_prompt,
-                    "messages": [ai_message,
-                                 # Message for passing the result of executing a tool back to a model
-                                 ToolMessage(tool_call_id=ai_message.tool_calls[0]["id"],content="plan2image prompt written.")]
-                }
-            )
     # non-reflexive tool calls
     goto = "__end__"
+    if ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "Search":
+        goto = "search_node"
+    elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "DeleteImgReferences":
+        goto = "delete_node"
+    elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "RenderPrototypeImgs":
+        goto = "render_node"
+
 
     return Command(
         goto=goto,

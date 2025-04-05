@@ -1,17 +1,13 @@
 [tool.poetry]
-name = "COLA"
+name = "cola"
 version = "0.1.0"
 description = "COpilot for Landscape Architecture"
 authors = ["Markus Ecker <markus.ecker@gmail.com>"]
 license = "MIT"
-packages = [
-    { include = "modeler" },
-#    { include = "adapter" },
-#    { include = "renderer" },
-]
+packages = [{ include = "modeler" }]
 
 [project]
-name = "COLA"
+name = "cola"
 version = "0.0.1"
 dependencies = [
     "copilotkit[crewai]>=0.1.41",

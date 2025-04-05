@@ -40,9 +40,9 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
         }],
     )
 
-    state["img_references"] = state.get("img_references", [])
     plan2img_prompt = state.get("plan2img_prompt", "")
-    prototype_img = state.get("prototype_img", "")
+    state["img_references"] = state.get("img_references", [])
+    prototype_img = state.get("prototype_img", [])
 
     img_references = []
 

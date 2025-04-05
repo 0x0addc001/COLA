@@ -22,9 +22,9 @@ export const AgentSelectorProvider = ({
 }) => {
   const agent =
     globalThis.window === undefined
-      ? "modeler"
+      ? "cola"
       : new URL(window.location.href).searchParams.get("agentType") ??
-        "modeler";
+        "cola";
   const [hidden, setHidden] = useState<boolean>(false);
 
   const setAgent = (agent: string) => {

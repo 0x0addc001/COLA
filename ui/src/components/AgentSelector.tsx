@@ -20,9 +20,9 @@ export function AgentSelector() {
           <SelectValue placeholder="Theme" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="modeler">modeler</SelectItem>
-          <SelectItem value="adapter">adapter</SelectItem>
-          <SelectItem value="renderer">renderer</SelectItem>
+          <SelectItem value="cola">项目1</SelectItem>
+          <SelectItem value="cola">项目2</SelectItem>
+          <SelectItem value="cola">新项目</SelectItem>
         </SelectContent>
       </Select>
     </div>

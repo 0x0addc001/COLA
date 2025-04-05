@@ -1,0 +1,153 @@
+"""Chat Node"""
+
+from typing import List, cast, Literal
+from langchain_core.runnables import RunnableConfig
+from langchain_core.messages import SystemMessage, AIMessage, ToolMessage
+from langchain.tools import tool
+from langgraph.types import Command
+from copilotkit.langgraph import copilotkit_customize_config
+
+from cola.state import AgentState
+from cola.model import Model, CREATIVE_MODEL
+from cola.nodes.download import get_reference
+
+@tool
+def Search(queries: List[str]): # pylint: disable=invalid-name,unused-argument
+    """A list of one or more search queries to find good references to support the design."""
+
+@tool
+def DeleteReferences(urls: List[str]): # pylint: disable=invalid-name,unused-argument
+    """Delete the URLs from the references."""
+
+@tool
+def WriteDesignPlan(design_plan: str): # pylint: disable=invalid-name,unused-argument
+    """Write the design plan."""
+
+@tool
+def WritePlan2ImgPrompt(plan2img_prompt: str): # pylint: disable=invalid-name,unused-argument
+    """Write the plan2img prompt."""
+
+@tool
+def RenderPrototypeImgs(urls: List[str]): # pylint: disable=invalid-name,unused-argument
+    """Render the prototype images."""
+
+
+async def chat_node(state: AgentState, config: RunnableConfig) -> \
+    Command[Literal["search_node", "delete_node", "adapt_node", "render_node", "__end__"]]:
+    """
+    Chat Node
+    """
+
+    config = copilotkit_customize_config(
+        config,
+        # Lets you emit tool calls as streaming LangGraph state.
+        emit_intermediate_state=[{
+            "state_key": "design_plan",
+            "tool": "WriteDesignPlan",
+            "tool_argument": "design_plan",
+        },{
+            "state_key": "plan2img_prompt",
+            "tool": "WritePlan2ImgPrompt",
+            "tool_argument": "plan2img_prompt",
+        },{
+            "state_key": "prototype_imgs",
+            "tool": "RenderPrototypeImgs",
+            "tool_argument": "prototype_imgs",
+        }],
+    )
+
+    project_settings = state.get("project_settings", "")
+    design_plan = state.get("design_plan", "")
+    plan2img_prompt = state.get("plan2img_prompt", "")
+    prototype_img = state.get("prototype_img", [])
+
+    state["references"] = state.get("references", [])
+    state["img_references"] = state.get("img_references", [])
+    references = []
+    for reference in state["references"]:
+        content = get_reference(reference["url"])
+        if content == "ERROR":
+            continue
+        references.append({
+            **reference,
+            "content": content
+        })
+    img_references = []
+    for img_reference in state["img_references"]:
+        description = img_reference.get("description", "")
+        url = img_reference.get("url", "")
+        content = description + '_' + url
+        references.append({
+            **img_reference,
+            "content": content
+        })
+
+    model = Model.get_model(CREATIVE_MODEL)
+    # Prepare the kwargs for the ainvoke method
+    ainvoke_kwargs = {}
+    if model.__class__.__name__ in ["ChatOpenAI"]:
+        ainvoke_kwargs["parallel_tool_calls"] = False
+
+    response = await model.bind_tools(
+        [
+            Search,
+            DeleteReferences,
+            WriteDesignPlan,
+            WritePlan2ImgPrompt,
+            RenderPrototypeImgs,
+        ],
+        **ainvoke_kwargs  # Pass the kwargs conditionally
+    ).ainvoke([
+        SystemMessage(
+            content=f"""
+                你是一位景观设计助手，负责协助用户撰写景观设计方案。
+                在撰写设计方案之前，你应使用 Search 工具查找参考资料。
+                不要照搬参考资料的内容，而是从中提炼出能够满足用户项目需求的特征，并在你的设计中创造性地加以运用。
+                当你完成设计方案撰写后，应主动询问用户下一步的需求、修改意见等，使设计方案更加全面且富有吸引力。
+                为撰写设计方案，你应使用 WriteDesignPlan 工具。
+                为撰写plan2image提示词，你应使用 WritePlan2ImgPrompt 工具。
+                为渲染设计图，你应使用 RenderPrototypeImgs 工具。
+
+                以下是项目设定：
+                {project_settings}
+                
+                以下是可供参考的资料：
+                {references}
+
+                以下是设计方案：
+                {design_plan}
+                
+                以下是plan2image提示词：
+                {plan2img_prompt}
+                
+                以下是可供参考的图片：
+                {img_references}
+                
+                以下是设计图：
+                {prototype_img}
+                """
+        ),
+        *state["messages"],
+    ], config)
+
+    ai_message = cast(AIMessage, response)
+
+    ## Handle tool calls
+    goto = "__end__"
+    if ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "Search":
+        goto = "search_node"
+    elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "DeleteReferences":
+        goto = "delete_node"
+    elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "WriteDesignPlan":
+        goto = "plan_node"
+    elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "WritePlan2ImgPrompt":
+        goto = "adapt_node"
+    elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "RenderPrototypeImgs":
+        goto = "render_node"
+
+    return Command(
+        goto=goto,
+        update={
+            "messages": response
+        }
+    )

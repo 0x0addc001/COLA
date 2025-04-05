@@ -7,8 +7,8 @@ from langchain.tools import tool
 from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 
-from adapter.state import AgentState
-from adapter.model import Model, CREATIVE_MODEL
+from cola.state import AgentState
+from cola.model import Model, CREATIVE_MODEL
 
 
 import os
