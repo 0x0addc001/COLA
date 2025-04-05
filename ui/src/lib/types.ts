@@ -11,5 +11,5 @@ export type AgentState = {
   references: any[];
   plan2img_prompt: string;
   img_references: any[];
-  prototype_img: string;
+  prototype_imgs: any[];
 }

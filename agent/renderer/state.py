@@ -8,7 +8,7 @@ from langgraph.graph import MessagesState
 
 class Reference(TypedDict):
     """
-    Represents a image reference. Give it a precise title and a short description.
+    Represents an image reference. Give it a precise title and a short description.
     """
     url: str
     title: str
@@ -26,7 +26,7 @@ class AgentState(MessagesState):
     This is the state of the agent.
     It is a subclass of the MessagesState class from langgraph.
     """
-    project_settings: str
-    references: List[Reference]
-    design_plan: str
+    plan2img_prompt: str
+    img_references: List[Reference]
+    prototype_imgs: List[Reference]
     logs: List[Log]

@@ -34,6 +34,9 @@ export function DesignCanvas() {
     },
   });
 
+  // references
+  const references: Reference[] = state.references || [];
+
   useCopilotAction({ // Human-in-the-loop delete references
     name: "DeleteReferences",
     description:
@@ -82,7 +85,6 @@ export function DesignCanvas() {
     },
   });
 
-  const references: Reference[] = state.references || [];
   const setReferences = (references: Reference[]) => {
     setState({ ...state, references });
   };
@@ -131,6 +133,209 @@ export function DesignCanvas() {
       setIsEditReferenceOpen(false);
     }
   };
+
+
+  // // img_references
+  // const img_references: Reference[] = state.img_references || [];
+  //
+  // // Add
+  // useCopilotAction({ // Human-in-the-loop delete references
+  //   name: "DeleteReferences",
+  //   description:
+  //     "Prompt the user for reference delete confirmation, and then perform reference deletion",
+  //   available: "remote",
+  //   parameters: [
+  //     {
+  //       name: "urls",
+  //       type: "string[]",
+  //     },
+  //   ],
+  //   renderAndWait: ({ args, status, handler }) => {
+  //     return (
+  //       <div
+  //         className=""
+  //         data-test-id="delete-reference-generative-ui-container"
+  //       >
+  //         <div className="font-bold text-base mb-2">
+  //           Delete these references?
+  //         </div>
+  //         <References
+  //           references={references.filter((reference) =>
+  //             (args.urls || []).includes(reference.url)
+  //           )}
+  //           customWidth={200}
+  //         />
+  //         {status === "executing" && (
+  //           <div className="mt-4 flex justify-start space-x-2">
+  //             <button
+  //               onClick={() => handler("NO")}
+  //               className="px-4 py-2 text-[#6766FC] border border-[#6766FC] rounded text-sm font-bold"
+  //             >
+  //               Cancel
+  //             </button>
+  //             <button
+  //               data-test-id="button-delete"
+  //               onClick={() => handler("YES")}
+  //               className="px-4 py-2 bg-[#6766FC] text-white rounded text-sm font-bold"
+  //             >
+  //               Delete
+  //             </button>
+  //           </div>
+  //         )}
+  //       </div>
+  //     );
+  //   },
+  // });
+  //
+  // const setReferences = (references: Reference[]) => {
+  //   setState({ ...state, references });
+  // };
+  //
+  // // const [references, setReferences] = useState<Reference[]>(dummyReferences);
+  // const [newReference, setNewReference] = useState<Reference>({
+  //   url: "",
+  //   title: "",
+  //   description: "",
+  // });
+  // const [isAddReferenceOpen, setIsAddReferenceOpen] = useState(false);
+  //
+  // const addReference = () => {
+  //   if (newReference.url) {
+  //     setReferences([...references, { ...newReference }]);
+  //     setNewReference({ url: "", title: "", description: "" });
+  //     setIsAddReferenceOpen(false);
+  //   }
+  // };
+  //
+  // const removeReference = (url: string) => {
+  //   setReferences(
+  //     references.filter((reference: Reference) => reference.url !== url)
+  //   );
+  // };
+  //
+  // const [editReference, setEditReference] = useState<Reference | null>(null);
+  // const [originalUrl, setOriginalUrl] = useState<string | null>(null);
+  // const [isEditReferenceOpen, setIsEditReferenceOpen] = useState(false);
+  //
+  // const handleCardClick = (reference: Reference) => {
+  //   setEditReference({ ...reference }); // Ensure a new object is created
+  //   setOriginalUrl(reference.url); // Store the original URL
+  //   setIsEditReferenceOpen(true);
+  // };
+  //
+  // const updateReference = () => {
+  //   if (editReference && originalUrl) {
+  //     setReferences(
+  //       references.map((reference) =>
+  //         reference.url === originalUrl ? { ...editReference } : reference
+  //       )
+  //     );
+  //     setEditReference(null);
+  //     setOriginalUrl(null);
+  //     setIsEditReferenceOpen(false);
+  //   }
+  // };
+
+  // // prototype_imgs
+  // const prototype_imgs: Reference[] = state.prototype_imgs || [];
+  //
+  // // Add
+  // useCopilotAction({ // Human-in-the-loop delete references
+  //   name: "DeleteReferences",
+  //   description:
+  //     "Prompt the user for reference delete confirmation, and then perform reference deletion",
+  //   available: "remote",
+  //   parameters: [
+  //     {
+  //       name: "urls",
+  //       type: "string[]",
+  //     },
+  //   ],
+  //   renderAndWait: ({ args, status, handler }) => {
+  //     return (
+  //       <div
+  //         className=""
+  //         data-test-id="delete-reference-generative-ui-container"
+  //       >
+  //         <div className="font-bold text-base mb-2">
+  //           Delete these references?
+  //         </div>
+  //         <References
+  //           references={references.filter((reference) =>
+  //             (args.urls || []).includes(reference.url)
+  //           )}
+  //           customWidth={200}
+  //         />
+  //         {status === "executing" && (
+  //           <div className="mt-4 flex justify-start space-x-2">
+  //             <button
+  //               onClick={() => handler("NO")}
+  //               className="px-4 py-2 text-[#6766FC] border border-[#6766FC] rounded text-sm font-bold"
+  //             >
+  //               Cancel
+  //             </button>
+  //             <button
+  //               data-test-id="button-delete"
+  //               onClick={() => handler("YES")}
+  //               className="px-4 py-2 bg-[#6766FC] text-white rounded text-sm font-bold"
+  //             >
+  //               Delete
+  //             </button>
+  //           </div>
+  //         )}
+  //       </div>
+  //     );
+  //   },
+  // });
+  //
+  // const setReferences = (references: Reference[]) => {
+  //   setState({ ...state, references });
+  // };
+  //
+  // // const [references, setReferences] = useState<Reference[]>(dummyReferences);
+  // const [newReference, setNewReference] = useState<Reference>({
+  //   url: "",
+  //   title: "",
+  //   description: "",
+  // });
+  // const [isAddReferenceOpen, setIsAddReferenceOpen] = useState(false);
+  //
+  // const addReference = () => {
+  //   if (newReference.url) {
+  //     setReferences([...references, { ...newReference }]);
+  //     setNewReference({ url: "", title: "", description: "" });
+  //     setIsAddReferenceOpen(false);
+  //   }
+  // };
+  //
+  // const removeReference = (url: string) => {
+  //   setReferences(
+  //     references.filter((reference: Reference) => reference.url !== url)
+  //   );
+  // };
+  //
+  // const [editReference, setEditReference] = useState<Reference | null>(null);
+  // const [originalUrl, setOriginalUrl] = useState<string | null>(null);
+  // const [isEditReferenceOpen, setIsEditReferenceOpen] = useState(false);
+  //
+  // const handleCardClick = (reference: Reference) => {
+  //   setEditReference({ ...reference }); // Ensure a new object is created
+  //   setOriginalUrl(reference.url); // Store the original URL
+  //   setIsEditReferenceOpen(true);
+  // };
+  //
+  // const updateReference = () => {
+  //   if (editReference && originalUrl) {
+  //     setReferences(
+  //       references.map((reference) =>
+  //         reference.url === originalUrl ? { ...editReference } : reference
+  //       )
+  //     );
+  //     setEditReference(null);
+  //     setOriginalUrl(null);
+  //     setIsEditReferenceOpen(false);
+  //   }
+  // };
 
   return (
     <div className="w-full h-full overflow-y-auto p-10 bg-[#F5F8FF]">
@@ -197,7 +402,6 @@ export function DesignCanvas() {
               点击上方按钮添加参考资料
             </div>
           )}
-
           {references.length !== 0 && (
             <References
               references={references}
@@ -262,37 +466,49 @@ export function DesignCanvas() {
               addReference={addReference}
             />
           </div>
-          {references.length === 0 && (
+          {img_references.length === 0 && (
             <div className="text-sm text-slate-400">
               {/*Click the button above to add references.*/}
               点击上方按钮添加参考图
             </div>
           )}
-
-          {references.length !== 0 && (
+          {img_references.length !== 0 && (
             <References
-              references={references}
+              references={img_references}
               handleCardClick={handleCardClick}
               removeReference={removeReference}
             />
           )}
         </div>
 
-        <div className="flex flex-col h-full">
-          <h2 className="text-lg font-medium mb-3 text-primary">
-            {/*Prototype Image*/}
-            原型图
-          </h2>
-          <Textarea
-            data-test-id="prototype-image"
-            // placeholder=""
-            value={state.prototype_img || ""}
-            onChange={(e) => setState({ ...state, prototype_img: e.target.value })}
-            rows={10}
-            aria-label="Research draft"
-            className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
-            style={{ minHeight: "200px" }}
-          />
+        <div>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-medium text-primary">
+              {/*Prototype Images*/}
+              原型图
+            </h2>
+            <EditReferenceDialog
+              isOpen={isEditReferenceOpen}
+              onOpenChange={setIsEditReferenceOpen}
+              editReference={editReference}
+              setEditReference={setEditReference}
+              updateReference={updateReference}
+            />
+            <AddReferenceDialog
+              isOpen={isAddReferenceOpen}
+              onOpenChange={setIsAddReferenceOpen}
+              newReference={newReference}
+              setNewReference={setNewReference}
+              addReference={addReference}
+            />
+          </div>
+          {prototype_imgs.length !== 0 && (
+            <References
+              references={prototype_imgs}
+              handleCardClick={handleCardClick}
+              removeReference={removeReference}
+            />
+          )}
         </div>
 
       </div>
