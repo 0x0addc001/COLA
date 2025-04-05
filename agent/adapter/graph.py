@@ -11,10 +11,7 @@ from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 
 from adapter.state import AgentState
-from adapter.nodes.download import download_node
 from adapter.nodes.chat import chat_node
-from adapter.nodes.search import search_node
-from adapter.nodes.delete import delete_node, perform_delete_node
 
 # Define a new graph
 workflow = StateGraph(AgentState)
@@ -23,3 +20,4 @@ workflow.add_node("chat_node", chat_node)
 
 memory = MemorySaver()
 workflow.set_entry_point("chat_node")
+graph = workflow.compile(checkpointer=memory)

@@ -104,7 +104,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 在撰写设计方案之前，你应使用 Search 工具查找参考资料。
                 不要照搬参考资料的内容，而是从中提炼出能够满足用户项目需求的特征，并在你的设计中创造性地加以运用。
                 当你完成设计方案撰写后，应主动询问用户下一步的需求、修改意见等，使设计方案更加全面且富有吸引力。
-                撰写设计方案时，你应使用 WriteDesignPlan 工具。绝对不能回复该工具，只能使用该工具。
+                为撰写设计方案时，你应使用 WriteDesignPlan 工具。
 
                 以下是项目设定：
                 {project_settings}
@@ -128,7 +128,8 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     # reflexive tool calls
     if ai_message.tool_calls:
         if ai_message.tool_calls[0]["name"] == "WriteProjectSettings":
-            print("````````````chat.py:refelxive: WriteProjectSettings")
+            print("````````````chat.py:reflexive: WriteProjectSettings")
+            # ...
             return Command(
                 goto="chat_node",
                 update={
@@ -140,7 +141,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 }
             )
         if ai_message.tool_calls[0]["name"] == "WriteDesignPlan":
-            print("````````````chat.py:refelxive: WriteDesignPlan")
+            print("````````````chat.py:reflexive: WriteDesignPlan")
             design_plan = ai_message.tool_calls[0]["args"].get("design_plan", "")
             return Command(
                 goto="chat_node",

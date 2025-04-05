@@ -9,7 +9,21 @@ from copilotkit.langgraph import copilotkit_customize_config
 
 from adapter.state import AgentState
 from adapter.model import Model, CREATIVE_MODEL
-from adapter.nodes.download import get_reference
+
+
+import os
+current_directory = os.getcwd()
+print("当前工作目录：", current_directory)
+try:
+    with open(r"D:\ThesisProjects\COLA\agent\adapter\nodes\vocab.txt", "r", encoding="utf-8") as file:
+        references = file.read()
+        print("````````````chat.py:references:", references)
+except FileNotFoundError:
+    print("错误：文件未找到。请检查文件路径是否正确。")
+except UnicodeDecodeError:
+    print("错误：文件解码失败。请检查文件编码是否为 UTF-8。")
+except Exception as e:
+    print(f"发生未知错误：{e}")
 
 
 @tool
@@ -22,7 +36,7 @@ def WritePlan2ImgPrompt(plan2img_prompt: str): # pylint: disable=invalid-name,un
 
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> \
-    Command[Literal["search_node", "__end__"]]:
+    Command[Literal["__end__"]]:
     """
     Chat Node
     """
@@ -38,10 +52,6 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
 
     design_plan = state.get("design_plan", "")
     plan2img_prompt = state.get("plan2img_prompt", "")
-
-    with open("vocab.txt", "r", encoding="utf-8") as file:
-        references = file.read()
-        print("````````````chat.py:references:", references)
 
     # print("````````````chat.py:state:", state)
 
@@ -77,10 +87,10 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
         #     {references}
         #     """
             content=f"""
-                你是一位景观设计助手，负责协助用户撰写plan2image提示词（即将景观设计方案改写成用于Stable Diffusion图像生成的提示词，要求使用英文）。
+                你是一位景观设计助手，负责协助用户撰写plan2image提示词（即将景观设计方案改写成用于Stable Diffusion图像生成的提示词，**要求必须全文使用英文**）。
                 在撰写plan2image提示词时，你应查找并使用参考资料中的专业词汇。
                 当你完成plan2image提示词撰写后，应主动询问用户下一步的需求、修改意见等，使提示词更加全面且富有吸引力。
-                撰写plan2image提示词时，你应使用 WritePlan2ImgPrompt 工具。绝对不能回复该工具，只能使用该工具。
+                为撰写plan2image提示词，你应使用 WritePlan2ImgPrompt 工具。
 
                 以下是设计方案：
                 {design_plan}
