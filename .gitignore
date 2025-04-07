@@ -1,2 +1,13 @@
-# IDE
+# project
 /.idea/
+/venv/
+
+# agent
+/agent/.langgraph_api/
+/agent/history/
+#/agent/.env
+
+# ui
+/ui/.next/
+/ui/node_modules/
+#/ui/.env

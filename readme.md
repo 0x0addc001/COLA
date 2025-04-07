@@ -2,7 +2,7 @@
 
 ## Introducing COLA
 
-COLA, short for COpilot for Landscape Architecture, is a human-in-the-loop Landscape Achitecture design system based on agents. Its formalized definition is COLA(M,A,R,S), where M stands for Modeler(i.e. the agent who model the design plan), A stands for Adapter(i.e. the agent who adapt the plan into image prompt), R stands for Renderer(i.e. the agent who render the prototype image), S stands for Supervisor(i.e. the human designer) .
+COLA, short for COpilot for Landscape Architecture, is a human-in-the-loop Landscape Achitecture design system based on agents.
 
 ## Running COLA
 
