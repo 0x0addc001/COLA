@@ -19,7 +19,7 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
     """
 
     plan2img_prompt = state.get("plan2img_prompt", "")
-    prototype_img = state.get("prototype_img", [])
+    prototype_imgs = state.get("prototype_imgs", [])
     state["img_references"] = state.get("img_references", [])
     img_references = []
     for img_reference in state["img_references"]:
@@ -47,7 +47,7 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
                 {img_references}
                 
                 以下是设计图：
-                {prototype_img}
+                {prototype_imgs}
                 """
         ),
 
@@ -55,11 +55,12 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
     ], config)
 
     ai_message = cast(AIMessage, response)
-    prototype_img = ai_message.tool_calls[0]["args"].get("prototype_img", "")
+    # prototype_imgs = ai_message.tool_calls[0]["args"].get("prototype_imgs", "")
+    prototype_imgs = []
     return Command(
         goto="chat_node",
         update={
-            "prototype_img": prototype_img,
+            "prototype_imgs": prototype_imgs,
             "messages": [ai_message, ToolMessage(
                 tool_call_id=ai_message.tool_calls[0]["id"],
                 content="Design plan written."

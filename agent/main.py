@@ -9,28 +9,16 @@ from copilotkit import CopilotKitRemoteEndpoint, LangGraphAgent
 # from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 # from contextlib import asynccontextmanager
 
-from modeler.graph import graph as modeler_graph
-from adapter.graph import graph as adapter_graph
-from renderer.graph import graph as renderer_graph
+from cola.graph import graph
 
 app = FastAPI()
 sdk = CopilotKitRemoteEndpoint(
     agents=[
         LangGraphAgent(
-            name="modeler",
-            description="modeler",
-            graph=modeler_graph,
-        ),
-        LangGraphAgent(
-            name="adapter",
-            description="adapter",
-            graph=adapter_graph,
-        ),
-        LangGraphAgent(
-            name="renderer",
-            description="renderer",
-            graph=renderer_graph,
-        ),
+            name="cola",
+            description="cola",
+            graph=graph,
+        )
     ],
 )
 

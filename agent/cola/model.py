@@ -27,12 +27,16 @@ class Model:
                 cls._instances[model_type] = ChatOpenAI(
                     model="deepseek-chat",
                     base_url="https://api.deepseek.com",
+                    # model="deepseek-v3",
+                    # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
                     temperature=1
                 )
             elif model_type == FACTUAL_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
                     model="deepseek-chat",
                     base_url="https://api.deepseek.com",
+                    # model="deepseek-v3",
+                    # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
                     temperature=0
                 )
             else:

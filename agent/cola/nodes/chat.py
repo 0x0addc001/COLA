@@ -19,6 +19,7 @@ def Search(queries: List[str]): # pylint: disable=invalid-name,unused-argument
 def DeleteReferences(urls: List[str]): # pylint: disable=invalid-name,unused-argument
     """Delete the URLs from the references."""
 
+# TODO check if any other args are needed.
 @tool
 def WriteDesignPlan(design_plan: str): # pylint: disable=invalid-name,unused-argument
     """Write the design plan."""
@@ -41,6 +42,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     config = copilotkit_customize_config(
         config,
         # Lets you emit tool calls as streaming LangGraph state.
+        # TODO check if other tool call emissions are needed.
         emit_intermediate_state=[{
             "state_key": "design_plan",
             "tool": "WriteDesignPlan",
@@ -59,7 +61,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     project_settings = state.get("project_settings", "")
     design_plan = state.get("design_plan", "")
     plan2img_prompt = state.get("plan2img_prompt", "")
-    prototype_img = state.get("prototype_img", [])
+    prototype_imgs = state.get("prototype_imgs", [])
 
     state["references"] = state.get("references", [])
     state["img_references"] = state.get("img_references", [])
@@ -74,12 +76,12 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
         })
     img_references = []
     for img_reference in state["img_references"]:
-        description = img_reference.get("description", "")
+        instruction = img_reference.get("description", "")
         url = img_reference.get("url", "")
-        content = description + '_' + url
-        references.append({
+        instructions = instruction + ' ' + url + ','
+        img_references.append({
             **img_reference,
-            "content": content
+            "instructions": instructions
         })
 
     model = Model.get_model(CREATIVE_MODEL)
@@ -127,7 +129,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 {img_references}
                 
                 以下是设计图：
-                {prototype_img}
+                {prototype_imgs}
                 """
         ),
         *state["messages"],

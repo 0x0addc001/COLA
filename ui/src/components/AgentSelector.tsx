@@ -21,8 +21,6 @@ export function AgentSelector() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="cola">项目1</SelectItem>
-          <SelectItem value="cola">项目2</SelectItem>
-          <SelectItem value="cola">新项目</SelectItem>
         </SelectContent>
       </Select>
     </div>

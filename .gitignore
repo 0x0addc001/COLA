@@ -4,7 +4,6 @@
 
 # agent
 /agent/.langgraph_api/
-/agent/history/
 #/agent/.env
 
 # ui

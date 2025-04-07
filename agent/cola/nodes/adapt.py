@@ -15,9 +15,9 @@ import os
 current_directory = os.getcwd()
 print("当前工作目录：", current_directory)
 try:
-    with open(r"D:\ThesisProjects\COLA\agent\adapter\nodes\vocab.txt", "r", encoding="utf-8") as file:
+    with open(r".\cola\nodes\vocab.txt", "r", encoding="utf-8") as file:
         vocab = file.read()
-        print("vocab:", vocab)
+        # print("vocab:", vocab)
 except FileNotFoundError:
     print("错误：文件未找到。请检查文件路径是否正确。")
 except UnicodeDecodeError:

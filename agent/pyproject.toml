@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "COpilot for Landscape Architecture"
 authors = ["Markus Ecker <markus.ecker@gmail.com>"]
 license = "MIT"
-packages = [{ include = "modeler" }]
+# packages = [{ include = "cola" }]
 
 [project]
 name = "cola"
