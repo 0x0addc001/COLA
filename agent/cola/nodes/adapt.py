@@ -27,10 +27,12 @@ except Exception as e:
 
 
 async def adapt_node(state: AgentState, config: RunnableConfig) -> \
-    Command[Literal["chat_node", "__end__"]]:
+    Command[Literal["chat_node"]]:
     """
     Adapt Node
     """
+
+    ai_message = cast(AIMessage, state["messages"][-1])
 
     design_plan = state.get("design_plan", "")
     plan2img_prompt = state.get("plan2img_prompt", "")
@@ -46,6 +48,7 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
             content=f"""
                 你是一位景观设计提示词专家，负责协助用户撰写plan2image提示词（即将景观设计方案改写成用于Stable Diffusion图像生成的提示词）。
                 在撰写plan2image提示词时，你应全文使用英文，并且查找并使用专业词汇。
+                你只需返回plan2image提示词，不要返回任何多余的内容。
 
                 以下是设计方案：
                 {design_plan}
@@ -61,14 +64,15 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
         *state["messages"],
     ], config)
 
-    ai_message = cast(AIMessage, response)
-    plan2img_prompt = ai_message.tool_calls[0]["args"].get("plan2img_prompt", "")
+    plan2img_prompt = response
     return Command(
         goto="chat_node",
         update={
             "plan2img_prompt": plan2img_prompt,
-            "messages": [ai_message,
-                         # Message for passing the result of executing a tool back to a model
-                         ToolMessage(tool_call_id=ai_message.tool_calls[0]["id"], content="plan2image prompt written.")]
+            "messages": [# Message for passing the result of executing a tool back to a model
+                         ToolMessage(
+                             tool_call_id=ai_message.tool_calls[0]["id"],
+                             content="plan2image prompt written."
+                         )]
         }
     )

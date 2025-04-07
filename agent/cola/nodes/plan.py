@@ -18,6 +18,9 @@ async def plan_node(state: AgentState, config: RunnableConfig) -> \
     Plan Node
     """
 
+    ai_message = cast(AIMessage, state["messages"][-1])
+    print("ai_message", ai_message)
+
     project_settings = state.get("project_settings", "")
     design_plan = state.get("design_plan", "")
     state["references"] = state.get("references", [])
@@ -42,6 +45,7 @@ async def plan_node(state: AgentState, config: RunnableConfig) -> \
             content=f"""
                 你是一位景观设计方案专家，负责协助用户撰写景观设计方案。
                 在撰写设计方案时，你应参照参考资料而不要照搬参考资料的内容，你应从中提炼出能够满足用户项目设定的特征，并在你的设计中创造性地加以运用。
+                你只需返回设计方案，不要返回任何多余的内容。
 
                 以下是项目设定：
                 {project_settings}
@@ -53,17 +57,16 @@ async def plan_node(state: AgentState, config: RunnableConfig) -> \
                 {design_plan}
                 """
         ),
-
         *state["messages"],
     ], config)
 
-    ai_message = cast(AIMessage, response)
-    design_plan = ai_message.tool_calls[0]["args"].get("design_plan", "")
+    design_plan = response
     return Command(
         goto="chat_node",
         update={
             "design_plan": design_plan,
-            "messages": [ai_message, ToolMessage(
+            "messages": [# Message for passing the result of executing a tool back to a model
+                ToolMessage(
                 tool_call_id=ai_message.tool_calls[0]["id"],
                 content="Design plan written."
             )]

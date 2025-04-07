@@ -27,6 +27,7 @@ class Model:
                 cls._instances[model_type] = ChatOpenAI(
                     model="deepseek-chat",
                     base_url="https://api.deepseek.com",
+                    timeout=10000, # 10s timeout
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
                     temperature=1
@@ -35,6 +36,7 @@ class Model:
                 cls._instances[model_type] = ChatOpenAI(
                     model="deepseek-chat",
                     base_url="https://api.deepseek.com",
+                    timeout=10000,  # 10s timeout
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
                     temperature=0

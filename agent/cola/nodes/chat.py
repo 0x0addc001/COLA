@@ -19,7 +19,6 @@ def Search(queries: List[str]): # pylint: disable=invalid-name,unused-argument
 def DeleteReferences(urls: List[str]): # pylint: disable=invalid-name,unused-argument
     """Delete the URLs from the references."""
 
-# TODO check if any other args are needed.
 @tool
 def WriteDesignPlan(design_plan: str): # pylint: disable=invalid-name,unused-argument
     """Write the design plan."""
@@ -34,7 +33,7 @@ def RenderPrototypeImgs(urls: List[str]): # pylint: disable=invalid-name,unused-
 
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> \
-    Command[Literal["search_node", "delete_node", "adapt_node", "render_node", "__end__"]]:
+    Command[Literal["search_node", "delete_node", "plan_node", "adapt_node", "render_node", "__end__"]]:
     """
     Chat Node
     """
@@ -42,8 +41,15 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     config = copilotkit_customize_config(
         config,
         # Lets you emit tool calls as streaming LangGraph state.
-        # TODO check if other tool call emissions are needed.
         emit_intermediate_state=[{
+             "state_key": "references",
+             "tool": "Search",
+             "tool_argument": "queries",
+        },{
+             "state_key": "references",
+             "tool": "DeleteReferences",
+             "tool_argument": "urls",
+        },{
             "state_key": "design_plan",
             "tool": "WriteDesignPlan",
             "tool_argument": "design_plan",
@@ -109,9 +115,9 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 3. 使用 WriteDesignPlan 工具撰写设计方案。
                 4. 使用 WritePlan2ImgPrompt 工具撰写plan2image提示词。
                 5. 获取参考图片。
-                5. 使用 RenderPrototypeImgs 工具渲染设计图。
-                在你完成每一步前，不应询问用户这一步之后步骤需要提供的材料。
-                在你完成每一步后，应主动询问用户这一步的意见和下一步的需求，使其更加全面且符合用户预期。
+                6. 使用 RenderPrototypeImgs 工具渲染设计图。
+                在完成每一步前，你应尽可能向用户征询齐全这一步所需的材料，而不应询问用户之后的步骤及其所需提供的材料。
+                在完成每一步后，你应尽可能简短地总结这一步工作并主动询问用户的意见，而不应大篇幅复述工作所完成的内容。
 
                 以下是项目设定：
                 {project_settings}

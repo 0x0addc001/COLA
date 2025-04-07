@@ -7,8 +7,8 @@ export type Reference = {
 export type AgentState = {
   logs: any[];
   project_settings: string;
-  design_plan: string;
   references: any[];
+  design_plan: string;
   plan2img_prompt: string;
   img_references: any[];
   prototype_imgs: any[];

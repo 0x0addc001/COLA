@@ -13,10 +13,12 @@ from cola.nodes.download import get_reference
 
 
 async def render_node(state: AgentState, config: RunnableConfig) -> \
-    Command[Literal["render_node", "search_node", "delete_node", "__end__"]]:
+    Command[Literal["chat_node"]]:
     """
     Render Node
     """
+
+    ai_message = cast(AIMessage, state["messages"][-1])
 
     plan2img_prompt = state.get("plan2img_prompt", "")
     prototype_imgs = state.get("prototype_imgs", [])
@@ -54,16 +56,15 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
         *state["messages"],
     ], config)
 
-    ai_message = cast(AIMessage, response)
-    # prototype_imgs = ai_message.tool_calls[0]["args"].get("prototype_imgs", "")
     prototype_imgs = []
     return Command(
         goto="chat_node",
         update={
             "prototype_imgs": prototype_imgs,
-            "messages": [ai_message, ToolMessage(
-                tool_call_id=ai_message.tool_calls[0]["id"],
-                content="Design plan written."
+            "messages": [# Message for passing the result of executing a tool back to a model
+                         ToolMessage(
+                             tool_call_id=ai_message.tool_calls[0]["id"],
+                             content="Design plan written."
             )]
         }
     )
