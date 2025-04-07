@@ -8,7 +8,7 @@ from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 
 from cola.state import AgentState
-from cola.model import Model, CREATIVE_MODEL
+from cola.model import Model, RENDER_MODEL
 from cola.nodes.download import get_reference
 
 
@@ -33,7 +33,7 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
             "content": content
         })
 
-    model = Model.get_model(CREATIVE_MODEL)
+    model = Model.get_model(RENDER_MODEL)
     # Prepare the kwargs for the ainvoke method
     ainvoke_kwargs = {}
     if model.__class__.__name__ in ["ChatOpenAI"]:

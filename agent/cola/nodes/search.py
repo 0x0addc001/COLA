@@ -12,7 +12,7 @@ from tavily import TavilyClient
 from copilotkit.langgraph import copilotkit_emit_state, copilotkit_customize_config
 
 from cola.state import AgentState
-from cola.model import Model, FACTUAL_MODEL
+from cola.model import Model, SEARCH_MODEL
 
 class ReferenceInput(BaseModel):
     """A reference with a short description"""
@@ -62,7 +62,7 @@ async def search_node(state: AgentState, config: RunnableConfig):
         }],
     )
 
-    model = Model.get_model(FACTUAL_MODEL)
+    model = Model.get_model(SEARCH_MODEL)
     ainvoke_kwargs = {}
     if model.__class__.__name__ in ["ChatOpenAI"]:
         ainvoke_kwargs["parallel_tool_calls"] = False

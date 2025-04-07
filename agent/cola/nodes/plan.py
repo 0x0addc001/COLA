@@ -8,7 +8,7 @@ from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 
 from cola.state import AgentState
-from cola.model import Model, CREATIVE_MODEL
+from cola.model import Model, PLAN_MODEL
 from cola.nodes.download import get_reference
 
 
@@ -34,7 +34,7 @@ async def plan_node(state: AgentState, config: RunnableConfig) -> \
             "content": content
         })
 
-    model = Model.get_model(CREATIVE_MODEL)
+    model = Model.get_model(PLAN_MODEL)
     # Prepare the kwargs for the ainvoke method
     ainvoke_kwargs = {}
     if model.__class__.__name__ in ["ChatOpenAI"]:
@@ -58,6 +58,10 @@ async def plan_node(state: AgentState, config: RunnableConfig) -> \
                 """
         ),
         *state["messages"],
+        ToolMessage( # TODO: fix this
+            tool_call_id=ai_message.tool_calls[0]["id"],
+            content=""
+        )
     ], config)
 
     design_plan = response

@@ -8,7 +8,7 @@ from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 
 from cola.state import AgentState
-from cola.model import Model, CREATIVE_MODEL
+from cola.model import Model, CHAT_MODEL
 from cola.nodes.download import get_reference
 
 @tool
@@ -20,15 +20,15 @@ def DeleteReferences(urls: List[str]): # pylint: disable=invalid-name,unused-arg
     """Delete the URLs from the references."""
 
 @tool
-def WriteDesignPlan(design_plan: str): # pylint: disable=invalid-name,unused-argument
+def WriteDesignPlan(): # pylint: disable=invalid-name,unused-argument
     """Write the design plan."""
 
 @tool
-def WritePlan2ImgPrompt(plan2img_prompt: str): # pylint: disable=invalid-name,unused-argument
+def WritePlan2ImgPrompt(): # pylint: disable=invalid-name,unused-argument
     """Write the plan2img prompt."""
 
 @tool
-def RenderPrototypeImgs(urls: List[str]): # pylint: disable=invalid-name,unused-argument
+def RenderPrototypeImgs(): # pylint: disable=invalid-name,unused-argument
     """Render the prototype images."""
 
 
@@ -90,7 +90,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
             "instructions": instructions
         })
 
-    model = Model.get_model(CREATIVE_MODEL)
+    model = Model.get_model(CHAT_MODEL)
     # Prepare the kwargs for the ainvoke method
     ainvoke_kwargs = {}
     if model.__class__.__name__ in ["ChatOpenAI"]:
