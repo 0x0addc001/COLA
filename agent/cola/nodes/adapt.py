@@ -62,6 +62,10 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
         ),
 
         *state["messages"],
+        ToolMessage(
+            tool_call_id=ai_message.tool_calls[0]["id"],
+            content=""
+        )
     ], config)
 
     plan2img_prompt = response
@@ -72,7 +76,7 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
             "messages": [# Message for passing the result of executing a tool back to a model
                          ToolMessage(
                              tool_call_id=ai_message.tool_calls[0]["id"],
-                             content="plan2image prompt written."
+                             content="Plan2image prompt written."
                          )]
         }
     )

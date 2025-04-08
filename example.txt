@@ -1,3 +1,5 @@
+0. project settings
+
 **设计理念：**\
 以自然与可持续发展为核心，融合现代简约与传统元素，创造人与环境和谐共生的生活场景。
 
@@ -24,3 +26,118 @@
 
 **植物偏好：**\
 本土树种、四季花卉、耐旱灌木与攀缘植物，注重季节性变化与色彩搭配。
+
+1. design plan
+
+**现代自然主义多功能公共空间景观设计方案**
+
+---
+
+### 一、设计理念
+以"城市野境"为核心理念，融合高线公园的工业遗迹再生策略与奥道夫新自然主义种植手法，打造"三分人工，七分自然"的生态艺术空间。通过模块化设计语言重构传统园林的框景美学，形成可呼吸的绿色基础设施。
+
+---
+
+### 二、空间结构规划（2000㎡）
+1. **生态廊道区（30%）**
+   - 蜿蜒的透水混凝土步道串联各功能节点
+   - 两侧采用"植物窗帘"手法：上层为紫藤/凌霄等攀援植物，中层配置木槿/八仙花，地被层选用薹草属植物
+   - 参考高线公园的"植筑"设计，保留局部铁轨元素作为艺术装置
+
+2. **中央活动草坪（25%）**
+   - 耐践踏的混播草种（早熟禾+黑麦草）
+   - 边缘采用飘带式种植：春季番红花→夏季千屈菜→秋季野菊→冬季茶梅
+   - 可移动艺术座椅系统（再生混凝土基座+FSC认证柚木面板）
+
+3. **水景艺术区（20%）**
+   - 叠级生态水景：源头为镜面不锈钢喷泉，末端转化为雨水花园
+   - 湿生植物带：芦苇、菖蒲、睡莲的梯度配置
+   - 亲水平台采用防滑玻璃格栅，下部展示水流净化过程
+
+4. **文化体验区（15%）**
+   - 镂空钢构休息亭（参数化设计模拟树叶肌理）
+   - 地面镶嵌本土文化符号的陶板浮雕
+   - 互动光影装置墙（太阳能供电）
+
+5. **边界过渡带（10%）**
+   - 三层降噪植物墙：内层竹柏，中层珊瑚树，外层紫薇
+   - 透光混凝土矮墙间隔设置观景框洞
+
+---
+
+### 三、植物配置策略
+1. **四季时序设计**：
+   - 春：星花木兰+喷雪花+二月兰花甸
+   - 夏：木本绣球+百子莲+柳叶马鞭草
+   - 秋：黄连木+紫珠+狼尾草
+   - 冬：腊梅+茶梅+异鳞鼠尾粟
+
+2. **生态群落构建**：
+   - 按《Planting in a Post-Wild World》理论配置5类植物层级：
+     1. 结构层：朴树、乌桕
+     2. 主题层：大花圆锥绣球'石灰灯'
+     3. 填充层：金叶过路黄
+     4. 地被层：富贵草
+     5. 动态层：随意草'粉色大象'
+
+3. **特殊生境设计**：
+   - 铁轨遗迹区：模拟原生演替群落，配置南芥+紫花地丁+狗尾草
+   - 石笼墙：种植垂盆草+中华景天
+
+---
+
+### 四、可持续技术应用
+1. **材料系统**：
+   - 铺装：30%再生骨料透水混凝土+70%本地砂岩碎拼
+   - 小品：3D打印陶粒混凝土构件
+   - 铺装：30%再生骨料透水混凝土+70%本地砂岩碎拼
+   - 小品：3D打印陶粒混凝土构件
+
+2. **水管理**：
+   - 线性排水沟收集屋面径流
+   - 生物滞留池处理硬质场地雨水
+   - 智能滴灌系统（土壤湿度感应）
+
+3. **能源方案**：
+   - 光伏玻璃亭顶
+   - 动能地砖供电的景观照明
+
+---
+
+### 五、运营维护计划
+1. 建立植物健康档案，实施"最小干预"养护：
+   - 多年生植物冬季保留枯枝骨架
+   - 观赏草每三年分株更新
+2. 开展四季主题活动：
+   - 春季种植工作坊
+   - 秋季种子银行计划
+3. 设置二维码植物解说系统
+
+---
+
+**设计亮点**：通过工业记忆与生态过程的时空叠印，创造具有荒野美学的精致自然。硬质景观与植物群落的有机咬合，实现全生命周期低碳运营。
+
+2. plan2image prompt
+
+**plan2image prompt for Stable Diffusion:**
+
+"Modern naturalistic public space landscape design, aerial view, golden hour lighting, featuring:
+1. **Ecological Corridor**: Winding permeable concrete path with 'plant curtain' layers - Wisteria/Campsis vines above, Hibiscus/Hydrangea mid-layer, Carex groundcover. Preserved railway art installations referencing High Line Park's 'planted architecture' aesthetic.
+
+2. **Central Lawn**: Mixed turfgrass (Poa pratensis + Lolium perenne) with seasonal ribbon planting: Crocus→Lythrum→Chrysanthemum→Camellia. Mobile seating with recycled concrete bases and FSC teak tops.
+
+3. **Water Feature**: Tiered ecological water system - stainless steel fountain transitioning to rain garden with Phragmites/Iris/Nymphaea gradient. Anti-slip glass grating walkway revealing water purification process below.
+
+4. **Cultural Pavilion**: Parametric steel canopy mimicking leaf venation, embedded with local ceramic motifs. Solar-powered interactive light wall casting dappled shadows.
+
+5. **Border Treatment**: Three-layer noise-reduction planting (Podocarpus/Viburnum/Lagerstroemia) with translucent concrete walls featuring framed viewports.
+
+**Details**:
+- Seasonal plant transitions: Magnolia stellata→Viburnum macrocephalum→Cotinus coggygria→Chimonanthus praecox
+- Sustainable materials: 30% recycled aggregate concrete + 70% local sandstone paving
+- Photovoltaic glass pavilion roof with kinetic paving lighting
+- Piet Oudolf-inspired naturalistic planting with structural trees (Celtis/Sapium), 'Limelight' hydrangeas, and Lysimachia nummularia groundcover
+
+**Rendering Style**: Hyper-realistic daylight visualization with subtle lens flare, depth of field focusing on the water feature, 8K resolution showing texture details in materials and foliage. Include people casually enjoying spaces for scale."
+
+(Note: This prompt integrates all specified design elements while optimizing for AI image generation with clear visual hierarchy and material/texture cues.)

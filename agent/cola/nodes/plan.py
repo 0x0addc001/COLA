@@ -58,7 +58,7 @@ async def plan_node(state: AgentState, config: RunnableConfig) -> \
                 """
         ),
         *state["messages"],
-        ToolMessage( # TODO: fix this
+        ToolMessage(
             tool_call_id=ai_message.tool_calls[0]["id"],
             content=""
         )

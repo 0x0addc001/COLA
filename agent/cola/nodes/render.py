@@ -54,6 +54,10 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
         ),
 
         *state["messages"],
+        ToolMessage(
+            tool_call_id=ai_message.tool_calls[0]["id"],
+            content=""
+        )
     ], config)
 
     prototype_imgs = []
@@ -64,7 +68,7 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
             "messages": [# Message for passing the result of executing a tool back to a model
                          ToolMessage(
                              tool_call_id=ai_message.tool_calls[0]["id"],
-                             content="Design plan written."
+                             content="Prototype image rendered."
             )]
         }
     )
