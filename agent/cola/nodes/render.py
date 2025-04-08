@@ -6,6 +6,7 @@ from langchain_core.messages import SystemMessage, AIMessage, ToolMessage
 from langchain.tools import tool
 from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
+import httpx
 
 from cola.state import AgentState
 from cola.model import Model, RENDER_MODEL
@@ -59,6 +60,11 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
             content=""
         )
     ], config)
+
+
+    """
+    Add Render Code Here
+    """
 
     prototype_imgs = []
     return Command(

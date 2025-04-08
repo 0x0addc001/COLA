@@ -484,7 +484,7 @@ export function DesignCanvas() {
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-medium text-primary">
               {/*Prototype Images*/}
-              原型图
+              平面图
             </h2>
             <EditReferenceDialog
               isOpen={isEditPrototypeImgOpen}
