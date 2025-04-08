@@ -13,3 +13,7 @@ export type AgentState = {
   img_references: any[];
   prototype_imgs: any[];
 }
+
+export type Image = {
+  url: string;
+};

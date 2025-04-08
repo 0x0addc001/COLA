@@ -12,7 +12,8 @@ import { Progress } from "./Progress";
 import { EditReferenceDialog } from "./EditReferenceDialog";
 import { AddReferenceDialog } from "./AddReferenceDialog";
 import { References } from "./References";
-import { AgentState, Reference } from "@/lib/types";
+import { Images } from "./Images";
+import { AgentState, Reference, Image } from "@/lib/types";
 import { useAgentSelectorContext } from "@/lib/agent-selector-provider";
 
 export function DesignCanvas() {
@@ -258,8 +259,8 @@ export function DesignCanvas() {
           <div className="font-bold text-base mb-2">
             Delete these prototype image?
           </div>
-          <References
-            references={prototype_imgs.filter((prototype_img) =>
+          <Images
+            images={prototype_imgs.filter((prototype_img) =>
               (args.urls || []).includes(prototype_img.url)
             )}
             customWidth={200}
@@ -286,37 +287,35 @@ export function DesignCanvas() {
     },
   });
 
-  const setPrototypeImgs = (prototype_imgs: Reference[]) => {
+  const setPrototypeImgs = (prototype_imgs: Image[]) => {
     setState({ ...state, prototype_imgs });
   };
 
   // const [references, setReferences] = useState<Reference[]>(dummyReferences);
-  const [newPrototypeImg, setNewPrototypeImg] = useState<Reference>({
+  const [newPrototypeImg, setNewPrototypeImg] = useState<Image>({
     url: "",
-    title: "",
-    description: "",
   });
   const [isAddPrototypeImgOpen, setIsAddPrototypeImgOpen] = useState(false);
 
   const addPrototypeImg = () => {
     if (newPrototypeImg.url) {
       setPrototypeImgs([...prototype_imgs, { ...newPrototypeImg }]);
-      setNewPrototypeImg({ url: "", title: "", description: "" });
+      setNewPrototypeImg({ url: "", });
       setIsAddPrototypeImgOpen(false);
     }
   };
 
   const removePrototypeImg = (url: string) => {
     setPrototypeImgs(
-      prototype_imgs.filter((reference: Reference) => reference.url !== url)
+      prototype_imgs.filter((image: Image) => image.url !== url)
     );
   };
 
-  const [editPrototypeImg, setEditPrototypeImg] = useState<Reference | null>(null);
+  const [editPrototypeImg, setEditPrototypeImg] = useState<Image | null>(null);
   const [originalProtoypeImgUrl, setOriginalProtoypeImgUrl] = useState<string | null>(null);
   const [isEditPrototypeImgOpen, setIsEditPrototypeImgOpen] = useState(false);
 
-  const handleCardClick_prototypeImg = (prototype_img: Reference) => {
+  const handleCardClick_prototypeImg = (prototype_img: Image) => {
     setEditPrototypeImg({ ...prototype_img }); // Ensure a new object is created
     setOriginalProtoypeImgUrl(prototype_img.url); // Store the original URL
     setIsEditPrototypeImgOpen(true);
@@ -486,26 +485,12 @@ export function DesignCanvas() {
               {/*Prototype Images*/}
               平面图
             </h2>
-            <EditReferenceDialog
-              isOpen={isEditPrototypeImgOpen}
-              onOpenChange={setIsEditPrototypeImgOpen}
-              editReference={editPrototypeImg}
-              setEditReference={setEditPrototypeImg}
-              updateReference={updatePrototypeImg}
-            />
-            <AddReferenceDialog
-              isOpen={isAddPrototypeImgOpen}
-              onOpenChange={setIsAddPrototypeImgOpen}
-              newReference={newPrototypeImg}
-              setNewReference={setNewPrototypeImg}
-              addReference={addPrototypeImg}
-            />
           </div>
           {prototype_imgs.length !== 0 && (
-            <References
-              references={prototype_imgs}
+            <Images
+              images={prototype_imgs}
               handleCardClick={handleCardClick_prototypeImg}
-              removeReference={removePrototypeImg}
+              removeImage={removePrototypeImg}
             />
           )}
         </div>

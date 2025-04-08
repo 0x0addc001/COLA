@@ -81,69 +81,34 @@ class Text2img:
         }
         self.run(base_json, self.text2img_ultra_url)
 
-    def text2img(self):
+    def text2img(self, prompt):
         """
         文生图全示例 json
         """
         base_json = {
-            "templateUuid": "e10adc3949ba59abbe56e057f20f883e", # 6f7c4652458d4802969f8d089cf5b91f
+            "templateUuid": "6f7c4652458d4802969f8d089cf5b91f",
             "generateParams": {
-                "checkPointId": "0ea388c7eb854be3ba3c6f65aac6bfd3", # 558ceb5f26024dec9e5279999a225d9a
-                "vaeId": "",
-                "prompt": "Asian portrait,A young woman wearing a green baseball cap,covering one eye with her hand",
-                "negativePrompt": "bad-artist, bad-artist-anime, bad-hands-5, bad-image-v2-39000, bad-picture-chill-75v, bad_prompt, bad_prompt_version2, badhandv4, NG_DeepNegative_V1_75T, EasyNegative,2girls, 3girls,,bad quality, poor quality, doll, disfigured, jpg, toy, bad anatomy, missing limbs, missing fingers, 3d, cgi",
-                "width": 768,
+                "prompt": prompt,
+                "negativePrompt": "ng_deepnegative_v1_75t,(badhandv4:1.2),EasyNegative,(worst quality:2),",
+                "steps": 30,
+                "width": 1024,
                 "height": 1024,
                 "imgCount": 1,
-                "cfgScale": 7,
+                "cfgScale": 3.5,
                 "randnSource": 0,
                 "seed": -1,
-                "clipSkip": 2,
-                "sampler": 15,
-                "steps": 20,
                 "restoreFaces": 0,
                 "additionalNetwork": [
                     {
-                        "modelId": "3dc63c4fe3df4147ac8a875db3621e9f",
-                        "weight": 0.6
+                        "modelId": "558ceb5f26024dec9e5279999a225d9a",
+                        "weight": 0.8
                     }
                 ],
-                "hiResFixInfo": {
-                    "hiresDenoisingStrength": 0.75,
-                    "hiresSteps": 20,
-                    "resizedHeight": 1536,
-                    "resizedWidth": 1024,
-                    "upscaler": 10
-                },
-                "controlNet": [
-                    {
-                        "unitOrder": 0,
-                        "sourceImage": "https://liblibai-online.liblib.cloud/img/081e9f07d9bd4c2ba090efde163518f9/7c1cc38e-522c-43fe-aca9-07d5420d743e.png",
-                        "width": 1024,
-                        "height": 1536,
-                        "preprocessor": 3,
-                        "annotationParameters": {
-                            "depthLeres": {
-                                "preprocessorResolution": 1024,
-                                "removeNear": 0,
-                                "removeBackground": 0
-                            }
-                        },
-                        "model": "6349e9dae8814084bd9c1585d335c24c",
-                        "controlWeight": 1,
-                        "startingControlStep": 0,
-                        "endingControlStep": 1,
-                        "pixelPerfect": 1,
-                        "controlMode": 0,
-                        "resizeMode": 1,
-                        "maskImage": ""
-                    }
-                ]
             }
         }
         self.run(base_json, self.text2img_url)
 
-    def run(self, data, url, timeout=300):
+    def run(self, data, url, timeout=600):
         """
         发送任务到生图接口，直到返回image为止，失败抛出异常信息
         """
@@ -171,6 +136,11 @@ class Text2img:
                 if progress['data'].get('images') and any(
                         image for image in progress['data']['images'] if image is not None):
                     print("任务完成，获取到图像数据。")
+
+                    # 提取 imageUrl
+                    image_url = progress['data']['images'][0]['imageUrl']
+                    print("Image URL:", image_url)
+
                     return progress
 
                 print(f"任务尚未完成，等待 {self.interval} 秒...")
@@ -180,12 +150,44 @@ class Text2img:
 
 
 def main():
+    prompt = "Modern naturalistic public space landscape design, aerial view, golden hour lighting, featuring:\n"+ \
+    "1. **Ecological Corridor**: Winding permeable concrete path with 'plant curtain' layers - Wisteria/Campsis vines above, Hibiscus/Hydrangea mid-layer, Carex groundcover. Preserved railway art installations referencing High Line Park's 'planted architecture' aesthetic.\n"+ \
+    "2. **Central Lawn**: Mixed turfgrass (Poa pratensis + Lolium perenne) with seasonal ribbon planting: Crocus→Lythrum→Chrysanthemum→Camellia. Mobile seating with recycled concrete bases and FSC teak tops.\n"+ \
+    "3. **Water Feature**: Tiered ecological water system - stainless steel fountain transitioning to rain garden with Phragmites/Iris/Nymphaea gradient. Anti-slip glass grating walkway revealing water purification process below.\n"+ \
+    "4. **Cultural Pavilion**: Parametric steel canopy mimicking leaf venation, embedded with local ceramic motifs. Solar-powered interactive light wall casting dappled shadows.\n"+ \
+    "5. **Border Treatment**: Three-layer noise-reduction planting (Podocarpus/Viburnum/Lagerstroemia) with translucent concrete walls featuring framed viewports.\n"+ \
+    "**Details**:\n"+ \
+    "- Seasonal plant transitions: Magnolia stellata→Viburnum macrocephalum→Cotinus coggygria→Chimonanthus praecox\n"+ \
+    "- Sustainable materials: 30% recycled aggregate concrete + 70% local sandstone paving\n"+ \
+    "- Photovoltaic glass pavilion roof with kinetic paving lighting\n"+ \
+    "- Piet Oudolf-inspired naturalistic planting with structural trees (Celtis/Sapium), 'Limelight' hydrangeas, and Lysimachia nummularia groundcover\n"+ \
+    "**Rendering Style**: Hyper-realistic daylight visualization with subtle lens flare, depth of field focusing on the water feature, 8K resolution showing texture details in materials and foliage. Include people casually enjoying spaces for scale."
+    print(prompt)
     test = Text2img()
-    # # 简易模式：旗舰版任务，如果不需要请注释
-    # test.ultra_text2img()
-    # 进阶模式：最全版本文生图，如果不需要请注释（API标准计划可用）
-    test.text2img()
+    test.text2img(prompt)
 
 
 if __name__ == '__main__':
     main()
+
+
+    # response = {
+    #     'code': 0,
+    #     'data': {
+    #         'generateUuid': '0d91361c7eb94c868f84d5e6fd039c60',
+    #         'generateStatus': 5,
+    #         'percentCompleted': 1.0,
+    #         'generateMsg': None,
+    #         'pointsCost': 10,
+    #         'accountBalance': 990,
+    #         'images': [{
+    #             'imageUrl': 'https://liblibai-tmp-image.liblib.cloud/img/0b0bae3956a14eab87ed6400a64b1ea7/96999f958ab0255fdaa026e99c6b0e26deec1f962ce3ef61957161292509ee8c.png',
+    #             'seed': 3161442867,
+    #             'auditStatus': 3
+    #         }]
+    #     },
+    #     'msg': ''
+    # }
+    # # 提取 imageUrl
+    # image_url = response['data']['images'][0]['imageUrl']
+    # print("Image URL:", image_url)

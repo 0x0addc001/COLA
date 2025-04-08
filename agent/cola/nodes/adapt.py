@@ -8,7 +8,7 @@ from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 
 from cola.state import AgentState
-from cola.model import Model, ADAPT_MODEL
+from cola.model import LLM, ADAPT_MODEL
 
 
 import os
@@ -37,7 +37,7 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
     design_plan = state.get("design_plan", "")
     plan2img_prompt = state.get("plan2img_prompt", "")
 
-    model = Model.get_model(ADAPT_MODEL)
+    model = LLM.get_model(ADAPT_MODEL)
     # Prepare the kwargs for the ainvoke method
     ainvoke_kwargs = {}
     if model.__class__.__name__ in ["ChatOpenAI"]:

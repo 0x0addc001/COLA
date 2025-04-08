@@ -9,7 +9,7 @@ from copilotkit.langgraph import copilotkit_customize_config
 import httpx
 
 from cola.state import AgentState
-from cola.model import Model, RENDER_MODEL
+from cola.model import VLM, TXT2IMG_MODEL
 from cola.nodes.download import get_reference
 
 
@@ -34,39 +34,16 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
             "content": content
         })
 
-    model = Model.get_model(RENDER_MODEL)
-    # Prepare the kwargs for the ainvoke method
-    ainvoke_kwargs = {}
-    if model.__class__.__name__ in ["ChatOpenAI"]:
-        ainvoke_kwargs["parallel_tool_calls"] = False
+    model = VLM.get_model(TXT2IMG_MODEL)
 
-    response = await model.ainvoke([
-        SystemMessage(
-            content=f"""
-                以下是plan2image提示词：
-                {plan2img_prompt}
+    response = await model.text2img(plan2img_prompt)
 
-                以下是参考图片：
-                {img_references}
-                
-                以下是设计图：
-                {prototype_imgs}
-                """
-        ),
+    if response['code'] == 1:
+        for i in range(len(response['data']['images'])):
+            prototype_imgs.append(response['data']['images'][i]['imageUrl'])
+    else:
+        print("Error:", response['msg'])
 
-        *state["messages"],
-        ToolMessage(
-            tool_call_id=ai_message.tool_calls[0]["id"],
-            content=""
-        )
-    ], config)
-
-
-    """
-    Add Render Code Here
-    """
-
-    prototype_imgs = []
     return Command(
         goto="chat_node",
         update={
