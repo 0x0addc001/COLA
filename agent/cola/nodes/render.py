@@ -36,11 +36,13 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
 
     model = VLM.get_model(TXT2IMG_MODEL)
 
+    # TODO fix await
     response = await model.text2img(plan2img_prompt)
 
     if response['code'] == 1:
         for i in range(len(response['data']['images'])):
             prototype_imgs.append(response['data']['images'][i]['imageUrl'])
+        print("prototype_imgs:", prototype_imgs)
     else:
         print("Error:", response['msg'])
 
