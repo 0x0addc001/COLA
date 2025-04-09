@@ -39,7 +39,7 @@ async def search_node(state: AgentState, config: RunnableConfig):
 
     for query in queries:
         state["logs"].append({
-            "message": f"Search for {query}",
+            "message": f"正在查找 {query}",
             "done": False
         })
 
@@ -74,9 +74,6 @@ async def search_node(state: AgentState, config: RunnableConfig):
         **ainvoke_kwargs
     ).ainvoke([
         SystemMessage(
-            # content="""
-            # You need to extract the 3-5 most relevant references from the following search results.
-            # """
             content="""
                 你需要从以下搜索结果中提取出3到5条最相关的参考资料。
                 """
@@ -84,7 +81,7 @@ async def search_node(state: AgentState, config: RunnableConfig):
         *state["messages"],
         ToolMessage(
         tool_call_id=ai_message.tool_calls[0]["id"],
-        content=f"Performed search: {search_results}"
+        content=f"已完成查找: {search_results}"
     )
     ], config)
 
@@ -98,7 +95,7 @@ async def search_node(state: AgentState, config: RunnableConfig):
 
     state["messages"].append(ToolMessage(
         tool_call_id=ai_message.tool_calls[0]["id"],
-        content=f"Added the following references: {references}"
+        content=f"已添加以下参考资料: {references}"
     ))
 
     return state

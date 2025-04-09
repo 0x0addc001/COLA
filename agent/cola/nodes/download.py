@@ -38,7 +38,7 @@ async def _download_reference(url: str):
                 return markdown_content
     except Exception as e: # pylint: disable=broad-except
         _REFERENCE_CACHE[url] = "ERROR"
-        return f"Error downloading reference: {e}"
+        return f"下载错误: {e}"
 
 async def download_node(state: AgentState, config: RunnableConfig):
     """
@@ -55,7 +55,7 @@ async def download_node(state: AgentState, config: RunnableConfig):
         if not get_reference(reference["url"]):
             references_to_download.append(reference)
             state["logs"].append({
-                "message": f"Downloading {reference['url']}",
+                "message": f"正在下载 {reference['url']}",
                 "done": False
             })
 

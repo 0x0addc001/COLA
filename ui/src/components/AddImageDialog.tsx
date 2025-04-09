@@ -41,15 +41,15 @@ export function AddImageDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Image</DialogTitle>
+          <DialogTitle>添加新的参考图</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="new-url" className="text-sm font-bold">
-            Image URL
+            参考图URL
           </label>
           <Input
             id="new-url"
-            placeholder="Image URL"
+            placeholder="参考图URL"
             value={newImage.url || ""}
             onChange={(e) =>
               setNewImage({ ...newImage, url: e.target.value })
@@ -58,11 +58,11 @@ export function AddImageDialog({
             className="bg-background"
           />
           <label htmlFor="new-instruction" className="text-sm font-bold">
-            Image Title
+            参考指令
           </label>
           <Input
             id="new-instruction"
-            placeholder="Image Title"
+            placeholder="参考指令"
             value={newImage.instruction || ""}
             onChange={(e) =>
               setNewImage({ ...newImage, instruction: e.target.value })
@@ -78,7 +78,7 @@ export function AddImageDialog({
             !newImage.url || !newImage.instruction
           }
         >
-          <Plus className="w-4 h-4 mr-2" /> Add Reference
+          <Plus className="w-4 h-4 mr-2" /> 添加参考图
         </Button>
       </DialogContent>
     </Dialog>

@@ -30,15 +30,15 @@ export function EditImageDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Image</DialogTitle>
+          <DialogTitle>编辑参考图</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="edit-url" className="text-sm font-bold">
-            Image URL
+            参考图URL
           </label>
           <Input
             id="edit-url"
-            placeholder="Image URL"
+            placeholder="参考图URL"
             value={editImage?.url || ""}
             onChange={(e) =>
               setEditImage((prev) =>
@@ -49,11 +49,11 @@ export function EditImageDialog({
             className="bg-background"
           />
           <label htmlFor="edit-instruction" className="text-sm font-bold">
-            Image Title
+            参考指令
           </label>
           <Input
             id="edit-instruction"
-            placeholder="Image Title"
+            placeholder="参考指令"
             value={editImage?.instruction || ""}
             onChange={(e) =>
               setEditImage((prev: any) =>
@@ -72,7 +72,7 @@ export function EditImageDialog({
             !editImage?.instruction
           }
         >
-          Save Changes
+          保存修改
         </Button>
       </DialogContent>
     </Dialog>

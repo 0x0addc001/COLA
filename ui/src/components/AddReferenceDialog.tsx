@@ -41,15 +41,15 @@ export function AddReferenceDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Reference</DialogTitle>
+          <DialogTitle>添加新的参考资料</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="new-url" className="text-sm font-bold">
-            Reference URL
+            参考资料URL
           </label>
           <Input
             id="new-url"
-            placeholder="Reference URL"
+            placeholder="参考资料URL"
             value={newReference.url || ""}
             onChange={(e) =>
               setNewReference({ ...newReference, url: e.target.value })
@@ -58,11 +58,11 @@ export function AddReferenceDialog({
             className="bg-background"
           />
           <label htmlFor="new-title" className="text-sm font-bold">
-            Reference Title
+            参考资料标题
           </label>
           <Input
             id="new-title"
-            placeholder="Reference Title"
+            placeholder="参考资料标题"
             value={newReference.title || ""}
             onChange={(e) =>
               setNewReference({ ...newReference, title: e.target.value })
@@ -71,11 +71,11 @@ export function AddReferenceDialog({
             className="bg-background"
           />
           <label htmlFor="new-description" className="text-sm font-bold">
-            Reference Description
+            参考资料描述
           </label>
           <Textarea
             id="new-description"
-            placeholder="Reference Description"
+            placeholder="参考资料描述"
             value={newReference.description || ""}
             onChange={(e) =>
               setNewReference({
@@ -94,7 +94,7 @@ export function AddReferenceDialog({
             !newReference.url || !newReference.title || !newReference.description
           }
         >
-          <Plus className="w-4 h-4 mr-2" /> Add Reference
+          <Plus className="w-4 h-4 mr-2" /> 添加参考资料
         </Button>
       </DialogContent>
     </Dialog>

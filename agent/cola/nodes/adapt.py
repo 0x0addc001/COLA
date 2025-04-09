@@ -48,7 +48,7 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
             content=f"""
                 你是一位景观设计提示词专家，负责协助用户撰写plan2image提示词（即将景观设计方案改写成用于Stable Diffusion图像生成的提示词）。
                 在撰写plan2image提示词时，你应全文使用英文，并且查找并使用专业词汇。
-                你只需返回plan2image提示词，不要返回任何多余的内容。
+                你只需回复plan2image提示词，不要回复任何多余的内容。
 
                 以下是设计方案：
                 {design_plan}

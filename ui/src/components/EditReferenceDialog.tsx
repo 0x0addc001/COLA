@@ -30,15 +30,15 @@ export function EditReferenceDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Reference</DialogTitle>
+          <DialogTitle>编辑参考资料</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="edit-url" className="text-sm font-bold">
-            Reference URL
+            参考资料URL
           </label>
           <Input
             id="edit-url"
-            placeholder="Reference URL"
+            placeholder="参考资料URL"
             value={editReference?.url || ""}
             onChange={(e) =>
               setEditReference((prev) =>
@@ -49,11 +49,11 @@ export function EditReferenceDialog({
             className="bg-background"
           />
           <label htmlFor="edit-title" className="text-sm font-bold">
-            Reference Title
+            参考资料标题
           </label>
           <Input
             id="edit-title"
-            placeholder="Reference Title"
+            placeholder="参考资料标题"
             value={editReference?.title || ""}
             onChange={(e) =>
               setEditReference((prev: any) =>
@@ -64,11 +64,11 @@ export function EditReferenceDialog({
             className="bg-background"
           />
           <label htmlFor="edit-description" className="text-sm font-bold">
-            Reference Description
+            参考资料描述
           </label>
           <Textarea
             id="edit-description"
-            placeholder="Reference Description"
+            placeholder="参考资料描述"
             value={editReference?.description || ""}
             onChange={(e) =>
               setEditReference((prev) =>
@@ -88,7 +88,7 @@ export function EditReferenceDialog({
             !editReference?.description
           }
         >
-          Save Changes
+          保存修改
         </Button>
       </DialogContent>
     </Dialog>
