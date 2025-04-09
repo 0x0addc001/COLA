@@ -45,23 +45,28 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
              "state_key": "references",
              "tool": "Search",
              "tool_argument": "queries",
-        },{
+        },
+        {
              "state_key": "references",
              "tool": "DeleteReferences",
              "tool_argument": "urls",
-        },{
+        },
+        {
             "state_key": "design_plan",
             "tool": "WriteDesignPlan",
-            "tool_argument": "design_plan",
-        },{
+            "tool_argument": "",
+        },
+        {
             "state_key": "plan2img_prompt",
             "tool": "WritePlan2ImgPrompt",
-            "tool_argument": "plan2img_prompt",
-        },{
+            "tool_argument": "",
+        },
+        {
             "state_key": "prototype_imgs",
             "tool": "RenderPrototypeImgs",
-            "tool_argument": "prototype_imgs",
-        }],
+            "tool_argument": "",
+        }
+        ],
     )
 
     project_settings = state.get("project_settings", "")
@@ -109,15 +114,15 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
         SystemMessage(
             content=f"""
                 你是一位景观设计助手，负责协助用户完成景观设计。
-                景观设计流程如下：
+                请严格按照景观设计流程进行工作：
                 1. 获取项目设定。
                 2. 使用 Search 工具查找参考资料。
                 3. 使用 WriteDesignPlan 工具撰写设计方案。
                 4. 使用 WritePlan2ImgPrompt 工具撰写plan2image提示词。
                 5. 获取参考图片。
                 6. 使用 RenderPrototypeImgs 工具渲染设计图。
-                在完成每一步前，你应主动向用户征询齐全这一步所需的考虑因素，而不应询问用户之后的步骤及其所需提供的材料。
-                在完成每一步后，你应主动询问用户这一步的意见以及是否进行下一步，而不应复述或总结这一步工作所完成的内容。
+                在完成每一步前，你只应主动向用户征询齐全这一步所需的考虑因素，不应询问用户之后的步骤及其所需提供的材料。
+                在完成每一步后，你只应主动询问用户这一步的意见以及是否进行下一步，不应复述或总结这一步工作所完成的内容。
 
                 以下是项目设定：
                 {project_settings}

@@ -143,7 +143,7 @@ class BaseVisualModel:
         url = f"https://openapi.liblibai.cloud/api/generate/webui/status?AccessKey={ak}&Signature={signature}&Timestamp={time_stamp}&SignatureNonce={signature_nonce}"
         return url
 
-    def run(self, data, url, timeout=300):
+    async def run(self, data, url, timeout=300):
         """
         发送任务到生图接口，直到返回image为止，失败抛出异常信息
         """
@@ -199,7 +199,7 @@ class Text2ImgModel(BaseVisualModel):
         self.text2img_ultra_url = self.get_ultra_image_url(self.ak, self.signature_ultra_img, self.time_stamp,
                                                            self.signature_nonce)
 
-    def ultra_text2img(self):
+    async def ultra_text2img(self):
         """
         ultra json
         """
@@ -211,9 +211,9 @@ class Text2ImgModel(BaseVisualModel):
                 "imgCount": 1,
             }
         }
-        self.run(base_json, self.text2img_ultra_url)
+        return await self.run(base_json, self.text2img_ultra_url)
 
-    def text2img(self, prompt):
+    async def text2img(self, prompt):
         """
         文生图全示例 json
         """
@@ -238,7 +238,7 @@ class Text2ImgModel(BaseVisualModel):
                 ],
             }
         }
-        self.run(base_json, self.text2img_url)
+        return await self.run(base_json, self.text2img_url)
 
 
 
@@ -255,7 +255,7 @@ class Img2ImgModel(BaseVisualModel):
         self.img2img_ultra_url = self.get_ultra_image_url(self.ak, self.signature_ultra_img, self.time_stamp,
                                                           self.signature_nonce)
 
-    def ultra_img2img(self):
+    async def ultra_img2img(self):
         """
         ultra json
         """
@@ -267,9 +267,9 @@ class Img2ImgModel(BaseVisualModel):
                 "sourceImage": "https://liblibai-online.liblib.cloud/img/081e9f07d9bd4c2ba090efde163518f9/7c1cc38e-522c-43fe-aca9-07d5420d743e.png",
             }
         }
-        self.run(base_json, self.img2img_ultra_url)
+        return await self.run(base_json, self.img2img_ultra_url)
 
-    def img2img(self):
+    async def img2img(self):
         """
         图生图全示例 json
         """
@@ -325,7 +325,7 @@ class Img2ImgModel(BaseVisualModel):
                 ]
             }
         }
-        self.run(base_json, self.img2img_url)
+        return await self.run(base_json, self.img2img_url)
 
 
 

@@ -68,7 +68,7 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
         )
     ], config)
 
-    plan2img_prompt = response
+    plan2img_prompt = response.content
     return Command(
         goto="chat_node",
         update={

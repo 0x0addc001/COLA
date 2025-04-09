@@ -19,7 +19,7 @@ async def plan_node(state: AgentState, config: RunnableConfig) -> \
     """
 
     ai_message = cast(AIMessage, state["messages"][-1])
-    print("ai_message", ai_message)
+    # print("ai_message", ai_message)
 
     project_settings = state.get("project_settings", "")
     design_plan = state.get("design_plan", "")
@@ -64,7 +64,8 @@ async def plan_node(state: AgentState, config: RunnableConfig) -> \
         )
     ], config)
 
-    design_plan = response
+    design_plan = response.content
+    print("response:", response)
     return Command(
         goto="chat_node",
         update={

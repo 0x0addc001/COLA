@@ -121,7 +121,8 @@
 
 **plan2image prompt for Stable Diffusion:**
 
-"Modern naturalistic public space landscape design, aerial view, golden hour lighting, featuring:
+"
+Modern naturalistic public space landscape design, aerial view, golden hour lighting, featuring:
 1. **Ecological Corridor**: Winding permeable concrete path with 'plant curtain' layers - Wisteria/Campsis vines above, Hibiscus/Hydrangea mid-layer, Carex groundcover. Preserved railway art installations referencing High Line Park's 'planted architecture' aesthetic.
 
 2. **Central Lawn**: Mixed turfgrass (Poa pratensis + Lolium perenne) with seasonal ribbon planting: Crocus→Lythrum→Chrysanthemum→Camellia. Mobile seating with recycled concrete bases and FSC teak tops.
@@ -138,6 +139,7 @@
 - Photovoltaic glass pavilion roof with kinetic paving lighting
 - Piet Oudolf-inspired naturalistic planting with structural trees (Celtis/Sapium), 'Limelight' hydrangeas, and Lysimachia nummularia groundcover
 
-**Rendering Style**: Hyper-realistic daylight visualization with subtle lens flare, depth of field focusing on the water feature, 8K resolution showing texture details in materials and foliage. Include people casually enjoying spaces for scale."
+**Rendering Style**: Hyper-realistic daylight visualization with subtle lens flare, depth of field focusing on the water feature, 8K resolution showing texture details in materials and foliage. Include people casually enjoying spaces for scale.
+"
 
 (Note: This prompt integrates all specified design elements while optimizing for AI image generation with clear visual hierarchy and material/texture cues.)

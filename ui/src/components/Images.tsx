@@ -33,11 +33,12 @@ export function Images({
                     <CardContent className="px-6 py-6 relative">
                         <div className="flex items-start space-x-3 text-sm">
                             <div className="flex-grow">
+                                <br/><br/>
                                 <img
                                     src={image.url}
                                     alt="favicon"
                                     className="inline-block mr-2"
-                                    style={{width: "1024px", height: "1024px"}}
+                                    style={{width: "512px", height: "512px"}}
                                 />
                             </div>
                             {removeImage && (
