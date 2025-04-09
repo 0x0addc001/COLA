@@ -16,4 +16,5 @@ export type AgentState = {
 
 export type Image = {
   url: string;
+  instruction: string;
 };

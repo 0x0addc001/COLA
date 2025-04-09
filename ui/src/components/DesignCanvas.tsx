@@ -11,6 +11,8 @@ import {
 import { Progress } from "./Progress";
 import { EditReferenceDialog } from "./EditReferenceDialog";
 import { AddReferenceDialog } from "./AddReferenceDialog";
+import { EditImageDialog } from "@/components/EditImageDialog";
+import { AddImageDialog } from "@/components/AddImageDialog";
 import { References } from "./References";
 import { Images } from "./Images";
 import { AgentState, Reference, Image } from "@/lib/types";
@@ -25,7 +27,7 @@ export function DesignCanvas() {
     },
   });
 
-  useCoAgentStateRender({ // Render progress
+  useCoAgentStateRender({ // Render progress!!!
     name: agent,
     render: ({ state, nodeName, status }) => {
       if (!state.logs || state.logs.length === 0) {
@@ -38,7 +40,7 @@ export function DesignCanvas() {
   // references
   const references: Reference[] = state.references || [];
 
-  useCopilotAction({ // Human-in-the-loop delete references
+  useCopilotAction({ // Human-in-the-loop deleting references(interrupt after)!!!
     name: "DeleteReferences",
     description:
       "Prompt the user for reference delete confirmation, and then perform reference deletion",
@@ -137,7 +139,7 @@ export function DesignCanvas() {
 
 
   // img_references
-  const img_references: Reference[] = state.img_references || [];
+  const img_references: Image[] = state.img_references || [];
 
   useCopilotAction({ // Human-in-the-loop delete image references
     name: "DeleteImgReferences",
@@ -159,9 +161,9 @@ export function DesignCanvas() {
           <div className="font-bold text-base mb-2">
             Delete these image references?
           </div>
-          <References
-            references={img_references.filter((reference) =>
-              (args.urls || []).includes(reference.url)
+          <Images
+            images={img_references.filter((image) =>
+              (args.urls || []).includes(image.url)
             )}
             customWidth={200}
           />
@@ -187,37 +189,36 @@ export function DesignCanvas() {
     },
   });
 
-  const setImgReferences = (img_references: Reference[]) => {
+  const setImgReferences = (img_references: Image[]) => {
     setState({ ...state, img_references });
   };
 
   // const [references, setReferences] = useState<Reference[]>(dummyReferences);
-  const [newImgReference, setNewImgReference] = useState<Reference>({
+  const [newImgReference, setNewImgReference] = useState<Image>({
     url: "",
-    title: "",
-    description: "",
+    instruction: "",
   });
   const [isAddImgReferenceOpen, setIsAddImgReferenceOpen] = useState(false);
 
   const addImgReference = () => {
     if (newImgReference.url) {
       setImgReferences([...img_references, { ...newImgReference }]);
-      setNewImgReference({ url: "", title: "", description: "" });
+      setNewImgReference({ url: "", instruction: "" });
       setIsAddImgReferenceOpen(false);
     }
   };
 
   const removeImgReference = (url: string) => {
     setImgReferences(
-      img_references.filter((img_reference: Reference) => img_reference.url !== url)
+      img_references.filter((img_reference: Image) => img_reference.url !== url)
     );
   };
 
-  const [editImgReference, setEditImgReference] = useState<Reference | null>(null);
+  const [editImgReference, setEditImgReference] = useState<Image | null>(null);
   const [originalImgRefUrl, setOriginalImgRefUrl] = useState<string | null>(null);
   const [isEditImgReferenceOpen, setIsEditImgReferenceOpen] = useState(false);
 
-  const handleCardClick_imgRef = (img_reference: Reference) => {
+  const handleCardClick_imgRef = (img_reference: Image) => {
     setEditImgReference({ ...img_reference }); // Ensure a new object is created
     setOriginalImgRefUrl(img_reference.url); // Store the original URL
     setIsEditImgReferenceOpen(true);
@@ -237,7 +238,7 @@ export function DesignCanvas() {
   };
 
   // prototype_imgs
-  const prototype_imgs: Reference[] = state.prototype_imgs || [];
+  const prototype_imgs: Image[] = state.prototype_imgs || [];
 
   useCopilotAction({ // Human-in-the-loop delete prototype images
     name: "DeletePrototypeImgs",
@@ -257,7 +258,7 @@ export function DesignCanvas() {
           data-test-id="delete-prototype-image-generative-ui-container"
         >
           <div className="font-bold text-base mb-2">
-            Delete these prototype image?
+            Delete these prototype images?
           </div>
           <Images
             images={prototype_imgs.filter((prototype_img) =>
@@ -294,13 +295,14 @@ export function DesignCanvas() {
   // const [references, setReferences] = useState<Reference[]>(dummyReferences);
   const [newPrototypeImg, setNewPrototypeImg] = useState<Image>({
     url: "",
+    instruction: "",
   });
   const [isAddPrototypeImgOpen, setIsAddPrototypeImgOpen] = useState(false);
 
   const addPrototypeImg = () => {
     if (newPrototypeImg.url) {
       setPrototypeImgs([...prototype_imgs, { ...newPrototypeImg }]);
-      setNewPrototypeImg({ url: "", });
+      setNewPrototypeImg({ url: "", instruction : ""});
       setIsAddPrototypeImgOpen(false);
     }
   };
@@ -449,19 +451,19 @@ export function DesignCanvas() {
               {/*Image References*/}
               参考图
             </h2>
-            <EditReferenceDialog
+            <EditImageDialog
               isOpen={isEditImgReferenceOpen}
               onOpenChange={setIsEditImgReferenceOpen}
-              editReference={editImgReference}
-              setEditReference={setEditImgReference}
-              updateReference={updateImgReference}
+              editImage={editImgReference}
+              setEditImage={setEditImgReference}
+              updateImage={updateImgReference}
             />
-            <AddReferenceDialog
+            <AddImageDialog
               isOpen={isAddImgReferenceOpen}
               onOpenChange={setIsAddImgReferenceOpen}
-              newReference={newImgReference}
-              setNewReference={setNewImgReference}
-              addReference={addImgReference}
+              newImage={newImgReference}
+              setNewImage={setNewImgReference}
+              addImage={addImgReference}
             />
           </div>
           {img_references.length === 0 && (
@@ -471,10 +473,10 @@ export function DesignCanvas() {
             </div>
           )}
           {img_references.length !== 0 && (
-            <References
-              references={img_references}
+            <Images
+              images={img_references}
               handleCardClick={handleCardClick_imgRef}
-              removeReference={removeImgReference}
+              removeImage={removeImgReference}
             />
           )}
         </div>

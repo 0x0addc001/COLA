@@ -7,7 +7,9 @@ import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
 
 export default function Main() {
   const { agent } = useAgentSelectorContext();
-  const { state, setState } = useCoAgent<AgentState>({
+  // useState -> React
+  // useCoAgent -> CopilotKit
+  const { state, setState } = useCoAgent<AgentState>({ // Sync the state across the ui-form and the agent!!!
     name: agent,
     initialState: {
       logs: [],

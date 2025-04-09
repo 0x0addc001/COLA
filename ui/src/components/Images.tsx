@@ -33,7 +33,17 @@ export function Images({
                     <CardContent className="px-6 py-6 relative">
                         <div className="flex items-start space-x-3 text-sm">
                             <div className="flex-grow">
-                                <br/><br/>
+                                <h3
+                                    className="font-bold text-lg"
+                                    style={{
+                                        maxWidth: customWidth ? customWidth - 30 + "px" : "230px",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: "nowrap",
+                                    }}
+                                >
+                                    {image.instruction}
+                                </h3>
                                 <img
                                     src={image.url}
                                     alt="favicon"

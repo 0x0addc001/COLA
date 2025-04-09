@@ -41,7 +41,7 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
 
     if response and response['code'] == 1:
         for i in range(len(response['data']['images'])):
-            prototype_imgs.append({"url": response['data']['images'][i]['imageUrl']})
+            prototype_imgs.append({"url": response['data']['images'][i]['imageUrl'], "instruction": ""})
         print("prototype_imgs:", prototype_imgs)
     elif response and response['code'] == 0:
         print("Error:", response['msg'])

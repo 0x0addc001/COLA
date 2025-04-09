@@ -38,6 +38,27 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     Chat Node
     """
 
+    """
+    Streaming state updates
+    Out of the box, CopilotKit will sync the state of your LangGraph agent with the frontend, whenever entering or exiting a node.
+    You can also configure CopilotKit to stream messages, LLM state updates and tool calls from your LangGraph agent.
+    """
+    # config = copilotkit_customize_config(
+    #     config,
+    #     # this will stream messages back to the chat window
+    #     emit_messages=True,
+    #     # this will stream tool calls to CopilotKit (call frontend actions)
+    #     emit_tool_calls=True,
+    #     # this will stream tool calls *as if* they were state
+    #     emit_intermediate_state=[
+    #         {
+    #             "state_key": "outline",
+    #             "tool": "set_outline",
+    #             "tool_argument": "outline",
+    #         }
+    #     ]
+    # )
+
     config = copilotkit_customize_config(
         config,
         # Lets you emit tool calls as streaming LangGraph state.
@@ -87,13 +108,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
         })
     img_references = []
     for img_reference in state["img_references"]:
-        instruction = img_reference.get("description", "")
-        url = img_reference.get("url", "")
-        instructions = instruction + ' ' + url + ','
-        img_references.append({
-            **img_reference,
-            "instructions": instructions
-        })
+        img_references.append(img_reference)
 
     model = LLM.get_model(CHAT_MODEL)
     # Prepare the kwargs for the ainvoke method

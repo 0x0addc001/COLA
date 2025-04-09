@@ -14,6 +14,13 @@ class Reference(TypedDict):
     title: str
     description: str
 
+class Image(TypedDict):
+    """
+    Represents an image. Give it a precise instruction.
+    """
+    url: str
+    instruction: str
+
 class Log(TypedDict):
     """
     Represents a log of an action performed by the agent.
