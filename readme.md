@@ -1,8 +1,12 @@
 # COLA: COpilot for Landscape Architecture
 
-## Introducing COLA
+## TLDR
 
-COLA, short for COpilot for Landscape Architecture, is a human-in-the-loop Landscape Achitecture design system based on agents.
+COLA, short for COpilot for Landscape Architecture, is a human-in-the-loop agentic system for Landscape Architecture design.
+
+<img src="D:\ThesisProjects\COLA\spark.png" style="zoom:25%;" />
+
+<img src="D:\ThesisProjects\COLA\graph.png" style="zoom:50%;" />
 
 ## Running COLA
 

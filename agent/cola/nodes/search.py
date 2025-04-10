@@ -75,7 +75,7 @@ async def search_node(state: AgentState, config: RunnableConfig):
     ).ainvoke([
         SystemMessage(
             content="""
-                你需要从以下搜索结果中提取出3到5条最相关的参考资料。
+                你需要从以下搜索结果中提取出3条最相关的参考资料。
                 """
         ),
         *state["messages"],
