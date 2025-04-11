@@ -70,8 +70,6 @@
 
 2. plan2image prompt
 
-**Plan2Image Prompt for Stable Diffusion:**
-
 *A modern naturalistic multifunctional public space, "Green Vein·Symbiosis", blending ecological sustainability with artistic experience. The 2000㎡ urban oasis features:*
 
 - "One-ring, two-axes, four-zones" masterplan
@@ -96,8 +94,3 @@
 - Reflective water surfaces capturing cloud movements
 
 Contemporary ecological design, Japanese wabi-sabi influences, clean lines with organic forms, high-detail landscape architecture illustration, photorealistic 8K rendering, aerial perspective showing seamless integration with urban context
-
-- Aspect ratio: 16:9
-- Style: Unreal Engine 5 hyperrealism
-- Lighting: Volumetric sun rays + ambient occlusion
-- Depth: Foreground (textured materials), Midground (human activity), Background (skyline integration)
