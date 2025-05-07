@@ -22,7 +22,7 @@ class ReferenceInput(BaseModel):
 
 @tool
 def ExtractReferences(references: List[ReferenceInput]): # pylint: disable=invalid-name,unused-argument
-    """Extract the 3-5 most relevant references from a search result."""
+    """Extract the 3 most relevant references from a search result."""
 
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
@@ -85,7 +85,7 @@ async def search_node(state: AgentState, config: RunnableConfig):
     )
     ], config)
 
-    state["logs"] = []
+    state["logs"] = [] # 清空日志
     await copilotkit_emit_state(config, state)
 
     ai_message_response = cast(AIMessage, response)

@@ -6,6 +6,7 @@ import aiohttp
 import html2text
 from copilotkit.langgraph import copilotkit_emit_state
 from langchain_core.runnables import RunnableConfig
+import textwrap
 
 from cola.state import AgentState
 
@@ -34,6 +35,10 @@ async def _download_reference(url: str):
                 response.raise_for_status()
                 html_content = await response.text()
                 markdown_content = html2text.html2text(html_content)
+
+                # Truncate the markdown content if it exceeds 10000 characters
+                markdown_content = textwrap.shorten(markdown_content, width=10000, placeholder="...")
+
                 _REFERENCE_CACHE[url] = markdown_content
                 return markdown_content
     except Exception as e: # pylint: disable=broad-except

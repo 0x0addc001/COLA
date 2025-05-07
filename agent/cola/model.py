@@ -17,6 +17,7 @@ CHAT_MODEL = "chat"
 SEARCH_MODEL = "search"
 PLAN_MODEL = "plan"
 ADAPT_MODEL = "adapt"
+KPI_ASSESS_MODEL = "kpi-assess"
 
 # VLM
 TXT2IMG_MODEL = "txt2img"
@@ -69,6 +70,15 @@ class LLM:
                     temperature=1
                 )
             elif model_type == ADAPT_MODEL:
+                cls._instances[model_type] = ChatOpenAI(
+                    model="deepseek-chat",
+                    base_url="https://api.deepseek.com",
+                    timeout=10000,  # 10s timeout
+                    # model="deepseek-v3",
+                    # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    temperature=1
+                )
+            elif model_type == KPI_ASSESS_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
                     model="deepseek-chat",
                     base_url="https://api.deepseek.com",

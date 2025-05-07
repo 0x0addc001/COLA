@@ -39,4 +39,5 @@ class AgentState(MessagesState):
     plan2img_prompt: str
     img_references: List[Reference]
     prototype_imgs: List[Reference]
+    assessment_report: str
     logs: List[Log]

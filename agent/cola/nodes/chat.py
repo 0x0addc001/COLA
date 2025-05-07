@@ -31,6 +31,10 @@ def WritePlan2ImgPrompt(): # pylint: disable=invalid-name,unused-argument
 def RenderPrototypeImgs(): # pylint: disable=invalid-name,unused-argument
     """Render the prototype images."""
 
+@tool
+def WriteAssessmentReport(): # pylint: disable=invalid-name,unused-argument
+    """Write the assessment report."""
+
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> \
     Command[Literal["search_node", "delete_node", "plan_node", "adapt_node", "render_node", "__end__"]]:
@@ -43,22 +47,6 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     Out of the box, CopilotKit will sync the state of your LangGraph agent with the frontend, whenever entering or exiting a node.
     You can also configure CopilotKit to stream messages, LLM state updates and tool calls from your LangGraph agent.
     """
-    # config = copilotkit_customize_config(
-    #     config,
-    #     # this will stream messages back to the chat window
-    #     emit_messages=True,
-    #     # this will stream tool calls to CopilotKit (call frontend actions)
-    #     emit_tool_calls=True,
-    #     # this will stream tool calls *as if* they were state
-    #     emit_intermediate_state=[
-    #         {
-    #             "state_key": "outline",
-    #             "tool": "set_outline",
-    #             "tool_argument": "outline",
-    #         }
-    #     ]
-    # )
-
     config = copilotkit_customize_config(
         config,
         # Lets you emit tool calls as streaming LangGraph state.
@@ -86,6 +74,11 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
             "state_key": "prototype_imgs",
             "tool": "RenderPrototypeImgs",
             "tool_argument": "",
+        },
+        {
+             "state_key": "assessment_report",
+             "tool": "WriteAssessmentReport",
+             "tool_argument": "",
         }
         ],
     )
@@ -94,6 +87,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     design_plan = state.get("design_plan", "")
     plan2img_prompt = state.get("plan2img_prompt", "")
     prototype_imgs = state.get("prototype_imgs", [])
+    assessment_report = state.get("assessment_report", "")
 
     state["references"] = state.get("references", [])
     state["img_references"] = state.get("img_references", [])
@@ -123,19 +117,21 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
             WriteDesignPlan,
             WritePlan2ImgPrompt,
             RenderPrototypeImgs,
+            WriteAssessmentReport,
         ],
         **ainvoke_kwargs  # Pass the kwargs conditionally
     ).ainvoke([
         SystemMessage(
             content=f"""
                 你是一位景观设计助手，负责协助用户完成景观设计。
-                请严格按照以下6步进行工作：
+                请严格按照以下7步进行工作：
                 1. 获取项目设定。
                 2. 使用 Search 工具查找参考资料。
                 3. 使用 WriteDesignPlan 工具撰写设计方案。
                 4. 使用 WritePlan2ImgPrompt 工具撰写plan2image提示词。
                 5. 获取参考图片。
-                6. 使用 RenderPrototypeImgs 工具渲染设计图。
+                6. 使用 RenderPrototypeImgs 工具渲染设计平面图。
+                7. 使用 AssessPlanAndImgs 工具评估设计方案和平面图。
                 在完成每一步时，你应主动向用户征询这一步所需的考虑因素，不应询问用户这一步之后的步骤。
                 在完成每一步后，你应主动中断工作并向用户征询这一步的意见，不应复述工作文档中的内容。
                 全部工作文档如下。
@@ -152,11 +148,14 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 以下是plan2image提示词：
                 {plan2img_prompt}
                 
-                以下是参考图片：
+                以下是参考图：
                 {img_references}
                 
-                以下是设计图：
+                以下是设计平面图：
                 {prototype_imgs}
+                
+                以下是评估报告：
+                {assessment_report}
                 """
         ),
         *state["messages"],
@@ -176,6 +175,8 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
         goto = "adapt_node"
     elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "RenderPrototypeImgs":
         goto = "render_node"
+    elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "WriteAssessmentReport":
+        goto = "__end__"
 
     return Command(
         goto=goto,
