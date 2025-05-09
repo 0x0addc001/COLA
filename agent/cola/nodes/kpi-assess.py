@@ -8,14 +8,14 @@ from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 
 from cola.state import AgentState
-from cola.model import LLM, KPI_ASSESS_MODEL
+from cola.model import LLM, KPI_RATE_MODEL
 from cola.nodes.download import get_reference
 
 
-async def kpi_assess_node(state: AgentState, config: RunnableConfig) -> \
+async def kpi_rate_node(state: AgentState, config: RunnableConfig) -> \
         Command[Literal["chat_node"]]:
     """
-    KPI-Assess Node
+    KPI-Rate Node
     """
 
     ai_message = cast(AIMessage, state["messages"][-1])
@@ -25,7 +25,7 @@ async def kpi_assess_node(state: AgentState, config: RunnableConfig) -> \
     design_plan = state.get("design_plan", "")
     prototype_imgs = state.get("prototype_imgs", [])
 
-    model = LLM.get_model(KPI_ASSESS_MODEL)
+    model = LLM.get_model(KPI_RATE_MODEL)
     # Prepare the kwargs for the ainvoke method
     ainvoke_kwargs = {}
     if model.__class__.__name__ in ["ChatOpenAI"]:
@@ -35,7 +35,7 @@ async def kpi_assess_node(state: AgentState, config: RunnableConfig) -> \
         SystemMessage(
             content=f"""
                 你是一位景观设计方案评估专家，负责协助用户评估景观设计方案。
-                在评估设计方案时，你应参!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                在评估设计方案时，你应？？？？？？？？？？？？？？？？？？？？
                 你只应回复评估结果，不应回复任何多余的内容。
 
                 以下是项目设定：

@@ -131,7 +131,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 4. 使用 WritePlan2ImgPrompt 工具撰写plan2image提示词。
                 5. 获取参考图片。
                 6. 使用 RenderPrototypeImgs 工具渲染设计平面图。
-                7. 使用 AssessPlanAndImgs 工具评估设计方案和平面图。
+                7. 使用 WriteAssessmentReport 工具评估设计方案和平面图。
                 在完成每一步时，你应主动向用户征询这一步所需的考虑因素，不应询问用户这一步之后的步骤。
                 在完成每一步后，你应主动中断工作并向用户征询这一步的意见，不应复述工作文档中的内容。
                 全部工作文档如下。
@@ -176,7 +176,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "RenderPrototypeImgs":
         goto = "render_node"
     elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "WriteAssessmentReport":
-        goto = "kpi_assess_node"
+        goto = "kpi_rater_node"
 
     return Command(
         goto=goto,

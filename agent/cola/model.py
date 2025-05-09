@@ -17,7 +17,7 @@ CHAT_MODEL = "chat"
 SEARCH_MODEL = "search"
 PLAN_MODEL = "plan"
 ADAPT_MODEL = "adapt"
-KPI_ASSESS_MODEL = "kpi-assess"
+KPI_RATE_MODEL = "kpi-rate"
 
 # VLM
 TXT2IMG_MODEL = "txt2img"
@@ -78,7 +78,7 @@ class LLM:
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
                     temperature=1
                 )
-            elif model_type == KPI_ASSESS_MODEL:
+            elif model_type == KPI_RATE_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
                     model="deepseek-chat",
                     base_url="https://api.deepseek.com",
