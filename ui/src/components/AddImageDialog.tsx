@@ -57,25 +57,26 @@ export function AddImageDialog({
             aria-label="New image URL"
             className="bg-background"
           />
-          <label htmlFor="new-instruction" className="text-sm font-bold">
-            参考指令
-          </label>
-          <Input
-            id="new-instruction"
-            placeholder="参考指令"
-            value={newImage.instruction || ""}
-            onChange={(e) =>
-              setNewImage({ ...newImage, instruction: e.target.value })
-            }
-            aria-label="New image instruction"
-            className="bg-background"
-          />
+          {/*<label htmlFor="new-instruction" className="text-sm font-bold">*/}
+          {/*  参考指令*/}
+          {/*</label>*/}
+          {/*<Input*/}
+          {/*  id="new-instruction"*/}
+          {/*  placeholder="参考指令"*/}
+          {/*  value={newImage.instruction || ""}*/}
+          {/*  onChange={(e) =>*/}
+          {/*    setNewImage({ ...newImage, instruction: e.target.value })*/}
+          {/*  }*/}
+          {/*  aria-label="New image instruction"*/}
+          {/*  className="bg-background"*/}
+          {/*/>*/}
         </div>
         <Button
           onClick={addImage}
           className="w-full bg-[#6766FC] text-white"
           disabled={
-            !newImage.url || !newImage.instruction
+            !newImage.url
+            // || !newImage.instruction
           }
         >
           <Plus className="w-4 h-4 mr-2" /> 添加参考图

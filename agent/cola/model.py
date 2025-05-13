@@ -44,48 +44,52 @@ class LLM:
         if model_type not in cls._instances:
             if model_type == CHAT_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
-                    model="deepseek-chat",
-                    base_url="https://api.deepseek.com",
-                    timeout=10000, # 10s timeout
+                    model="gpt-4o-mini",
+                    # model="deepseek-chat",
+                    # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    timeout=10000,  # 10s timeout
                     temperature=1
                 )
             elif model_type == SEARCH_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
-                    model="deepseek-chat",
-                    base_url="https://api.deepseek.com",
-                    timeout=10000,  # 10s timeout
-                    # model="deepseek-v3",
+                    model="gpt-4o-mini",
+                    # model="deepseek-chat",
+                    # base_url="https://api.deepseek.com",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    timeout=10000,  # 10s timeout
                     temperature=0
                 )
             elif model_type == PLAN_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
-                    model="deepseek-chat",
-                    base_url="https://api.deepseek.com",
-                    timeout=10000,  # 10s timeout
+                    model="gpt-4o-mini",
+                    # model="deepseek-chat",
+                    # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    timeout=10000,  # 10s timeout
                     temperature=1
                 )
             elif model_type == ADAPT_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
-                    model="deepseek-chat",
-                    base_url="https://api.deepseek.com",
-                    timeout=10000,  # 10s timeout
+                    model="gpt-4o-mini",
+                    # model="deepseek-chat",
+                    # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    timeout=10000,  # 10s timeout
                     temperature=1
                 )
             elif model_type == KPI_RATE_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
-                    model="deepseek-chat",
-                    base_url="https://api.deepseek.com",
-                    timeout=10000,  # 10s timeout
+                    model="gpt-4o-mini",
+                    # model="deepseek-chat",
+                    # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-                    temperature=1
+                    timeout=10000,  # 10s timeout
+                    temperature=0
                 )
             else:
                 raise ValueError("Invalid model type specified.")
@@ -223,13 +227,14 @@ class Text2ImgModel(BaseVisualModel):
         }
         return await self.run(base_json, self.text2img_ultra_url)
 
-    async def text2img(self, prompt):
+    async def text2img(self, prompt, source_image=None):
         """
         文生图全示例 json
         """
         base_json = {
             "templateUuid": "6f7c4652458d4802969f8d089cf5b91f",
             "generateParams": {
+                "checkPointId": "412b427ddb674b4dbab9e5abd5ae6057",
                 "prompt": prompt,
                 "negativePrompt": "ng_deepnegative_v1_75t,(badhandv4:1.2),EasyNegative,(worst quality:2),",
                 "steps": 30,
@@ -240,12 +245,36 @@ class Text2ImgModel(BaseVisualModel):
                 "randnSource": 0,
                 "seed": -1,
                 "restoreFaces": 0,
+                "sampler": 1,
                 "additionalNetwork": [
                     {
                         "modelId": "558ceb5f26024dec9e5279999a225d9a",
                         "weight": 0.8
                     }
                 ],
+                "controlNet": [
+                    {
+                        "unitOrder": 1,
+                        "controlWeight": 0.6,
+                        "startingControlStep": 0,
+                        "endingControlStep": 0.6,
+                        "pixelPerfect": 0,
+                        "controlMode": 0,
+                        "resizeMode": 1,
+
+                        "preprocessor": 35,
+                        "annotationParameters": {
+                            "preprocessorResolution": 512,
+                            "invert": {}
+                        },
+
+                        "model": "13c1e1b96ba64f9cbb2b54f89b5fe873",
+
+                        "width": 1024,
+                        "height": 1024,
+                        "sourceImage": source_image,
+                    }
+                ]
             }
         }
         return await self.run(base_json, self.text2img_url)

@@ -8,9 +8,9 @@ from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
 import httpx
 
-from cola.state import AgentState
+from cola.state import AgentState, ImageReference
 from cola.model import VLM, TXT2IMG_MODEL
-from cola.nodes.download import get_reference
+from cola.nodes.upload import upload_image
 
 
 async def render_node(state: AgentState, config: RunnableConfig) -> \
@@ -26,17 +26,12 @@ async def render_node(state: AgentState, config: RunnableConfig) -> \
     state["img_references"] = state.get("img_references", [])
     img_references = []
     for img_reference in state["img_references"]:
-        content = get_reference(img_reference["url"])
-        if content == "ERROR":
-            continue
-        img_references.append({
-            **img_reference,
-            "content": content
-        })
+        img_references.append(img_reference["url"])
+    print("img_references:", img_references)
 
+    # img_references[0] = await upload_image(img_references[0])
     model = VLM.get_model(TXT2IMG_MODEL)
-
-    response = await model.text2img(plan2img_prompt)
+    response = await model.text2img(plan2img_prompt, img_references[0])
     print("response:", response)
 
     if response and response['code'] == 1:

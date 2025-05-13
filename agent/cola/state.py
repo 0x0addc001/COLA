@@ -14,9 +14,9 @@ class Reference(TypedDict):
     title: str
     description: str
 
-class Image(TypedDict):
+class ImageReference(TypedDict):
     """
-    Represents an image. Give it a precise instruction.
+    Represents an image reference. Give it a precise instruction.
     """
     url: str
     instruction: str

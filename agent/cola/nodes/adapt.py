@@ -45,10 +45,13 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
 
     response = await model.ainvoke([
         SystemMessage(
-            content=f"""
-                你是一位景观设计提示词专家，负责协助用户撰写plan2image提示词（即将景观设计方案改写成用于Stable Diffusion图像生成的提示词）。
-                在撰写plan2image提示词时，你应全文使用英文，并且查找并使用专业词汇。
-                你只应回复plan2image提示词，不应回复任何多余的内容。
+            content=f"""     
+                你是一位资深景观设计提示词专家，专门将景观设计文档转写为StableDiffusion系列模型可直接使用的英文平面图生成提示词。  
+                你的工作流程如下：  
+                1. 阅读并理解用户提供的设计方案文档，提炼出简明扼要的摘要；  
+                2. 根据摘要并结合给出的专业词汇，以英文撰写高质量的平面图生成提示词；  
+                3. 聚焦空间布局、材质质感、光影氛围、构图视角、风格特征等要素，确保提示词精炼、具体、具备可视化指导性；  
+                4. 整体输出仅包含最终的平面图生成提示词，不包含任何额外说明或中间过程。  
 
                 以下是设计方案：
                 {design_plan}
@@ -56,7 +59,7 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
                 以下是专业词汇：
                 {vocab}
                 
-                以下是plan2image提示词：
+                以下是平面图生成提示词：
                 {plan2img_prompt}
                 """
         ),

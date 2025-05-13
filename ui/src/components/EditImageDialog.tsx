@@ -48,28 +48,28 @@ export function EditImageDialog({
             aria-label="Edit image URL"
             className="bg-background"
           />
-          <label htmlFor="edit-instruction" className="text-sm font-bold">
-            参考指令
-          </label>
-          <Input
-            id="edit-instruction"
-            placeholder="参考指令"
-            value={editImage?.instruction || ""}
-            onChange={(e) =>
-              setEditImage((prev: any) =>
-                prev ? { ...prev, instruction: e.target.value } : null
-              )
-            }
-            aria-label="Edit image instruction"
-            className="bg-background"
-          />
+          {/*<label htmlFor="edit-instruction" className="text-sm font-bold">*/}
+          {/*  参考指令*/}
+          {/*</label>*/}
+          {/*<Input*/}
+          {/*  id="edit-instruction"*/}
+          {/*  placeholder="参考指令"*/}
+          {/*  value={editImage?.instruction || ""}*/}
+          {/*  onChange={(e) =>*/}
+          {/*    setEditImage((prev: any) =>*/}
+          {/*      prev ? { ...prev, instruction: e.target.value } : null*/}
+          {/*    )*/}
+          {/*  }*/}
+          {/*  aria-label="Edit image instruction"*/}
+          {/*  className="bg-background"*/}
+          {/*/>*/}
         </div>
         <Button
           onClick={updateImage}
           className="w-full bg-[#6766FC] text-white"
           disabled={
-            !editImage?.url ||
-            !editImage?.instruction
+            !editImage?.url
+              // || !editImage?.instruction
           }
         >
           保存修改

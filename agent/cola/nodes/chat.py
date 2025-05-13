@@ -128,8 +128,8 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 1. 获取项目设定。
                 2. 使用 Search 工具查找参考资料。
                 3. 使用 WriteDesignPlan 工具撰写设计方案。
-                4. 使用 WritePlan2ImgPrompt 工具撰写plan2image提示词。
-                5. 获取参考图片。
+                4. 使用 WritePlan2ImgPrompt 工具撰写平面图生成提示词。
+                5. 获取参考图。
                 6. 使用 RenderPrototypeImgs 工具渲染设计平面图。
                 7. 使用 WriteAssessmentReport 工具评估设计方案和平面图。
                 在完成每一步时，你应主动向用户征询这一步所需的考虑因素，不应询问用户这一步之后的步骤。
@@ -145,7 +145,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 以下是设计方案：
                 {design_plan}
                 
-                以下是plan2image提示词：
+                以下是平面图生成提示词：
                 {plan2img_prompt}
                 
                 以下是参考图：

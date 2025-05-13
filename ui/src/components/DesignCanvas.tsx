@@ -497,6 +497,22 @@ export function DesignCanvas() {
           )}
         </div>
 
+        <div className="flex flex-col h-full">
+          <h2 className="text-lg font-medium mb-3 text-primary">
+            {/*Assessment Report*/}
+            评估报告
+          </h2>
+          <Textarea
+            data-test-id="assessment_report"
+            value={state.assessment_report || ""}
+            onChange={(e) => setState({ ...state, assessment_report: e.target.value })}
+            rows={10}
+            aria-label="Assessment report"
+            className="bg-background px-6 py-8 border-0 shadow-none rounded-xl text-md font-extralight focus-visible:ring-0 placeholder:text-slate-400"
+            style={{ minHeight: "200px" }}
+          />
+        </div>
+
       </div>
     </div>
   );

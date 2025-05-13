@@ -12,6 +12,7 @@ export type AgentState = {
   plan2img_prompt: string;
   img_references: any[];
   prototype_imgs: any[];
+  assessment_report: string;
 }
 
 export type Image = {
