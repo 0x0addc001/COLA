@@ -431,7 +431,7 @@ export function DesignCanvas() {
         <div className="flex flex-col h-full">
           <h2 className="text-lg font-medium mb-3 text-primary">
             {/*Plan2Image Prompt*/}
-            Plan2Image 提示词
+            平面图生成提示词
           </h2>
           <Textarea
             data-test-id="plan2img-prompt"
