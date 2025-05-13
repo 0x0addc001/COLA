@@ -21,7 +21,7 @@ async def kpi_rate_node(state: AgentState, config: RunnableConfig) -> \
     ai_message = cast(AIMessage, state["messages"][-1])
     # print("ai_message", ai_message)
 
-    project_settings = state.get("project_settings", "")
+    # project_settings = state.get("project_settings", "")
     design_plan = state.get("design_plan", "")
     prototype_imgs = state.get("prototype_imgs", [])
 
@@ -34,18 +34,37 @@ async def kpi_rate_node(state: AgentState, config: RunnableConfig) -> \
     response = await model.ainvoke([
         SystemMessage(
             content=f"""
-                你是一位景观设计方案评估专家，负责协助用户评估景观设计方案。
-                在评估设计方案时，你应？？？？？？？？？？？？？？？？？？？？
-                你只应回复评估结果，不应回复任何多余的内容。
-
-                以下是项目设定：
-                {project_settings}
+                你是一位景观设计方案评估专家，专门负责对风景园林设计方案进行多维度量化评估并输出改进建议。请严格按照以下流程和格式执行：
+                1. 输入
+                 - 设计方案文档：{design_plan}
+                 - 平面图：{prototype_imgs}
+                2. 评估维度（按 0–10 分制）  
+                 - 生态可持续性：评估方案对雨水管理、生物多样性、碳汇与环境保护等方面的贡献。
+                 - 美学性：评估方案的视觉吸引力、造景特色、和谐度与整体艺术感。
+                 - 功能性：评估方案的使用便捷性、可达性、安全性以及满足用户需求的程度。
+                3. 输出结构  
+                请按以下 JSON 格式输出，保证字段完整、规范。  
+                ```json
                 
-                以下是设计方案：
-                {design_plan}
-                
-                以下是设计平面图：
-                {prototype_imgs}
+{
+  "scores": {
+    "ecological_sustainability": 0–10,
+    "aesthetics": 0–10,
+    "functionality": 0–10
+  },
+  "analysis": {
+    "ecological_sustainability": "简要分析……",
+    "aesthetics": "简要分析……",
+    "functionality": "简要分析……"
+  },
+  "recommendations": {
+    "ecological_sustainability": "改进建议",
+    "aesthetics": "改进建议",
+    "functionality": "改进建议",
+    ]
+  }
+}
+                ```
                 """
         ),
         *state["messages"],
