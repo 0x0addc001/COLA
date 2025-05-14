@@ -83,7 +83,7 @@ class LLM:
                 )
             elif model_type == KPI_RATE_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
-                    model="gpt-4o-mini",
+                    model="gpt-4o",
                     # model="deepseek-chat",
                     # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
