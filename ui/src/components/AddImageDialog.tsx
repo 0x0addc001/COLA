@@ -6,6 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { ImageInput } from "@/components/ui/imageinput";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Plus } from "lucide-react";
@@ -47,16 +48,33 @@ export function AddImageDialog({
           <label htmlFor="new-url" className="text-sm font-bold">
             参考图URL
           </label>
-          <Input
-            id="new-url"
-            placeholder="参考图URL"
-            value={newImage.url || ""}
-            onChange={(e) =>
-              setNewImage({ ...newImage, url: e.target.value })
-            }
-            aria-label="New image URL"
+
+          {/*模仿此处的代码示例，修改新的上传组件的代码*/}
+          {/*<Input*/}
+          {/*  id="new-url"*/}
+          {/*  placeholder="参考图URL"*/}
+          {/*  value={newImage.url || ""}*/}
+          {/*  onChange={(e) =>*/}
+          {/*    setNewImage({ ...newImage, url: e.target.value })*/}
+          {/*  }*/}
+          {/*  aria-label="New image URL"*/}
+          {/*  className="bg-background"*/}
+          {/*/>*/}
+          {/* 使用 ImageInput 代替 Input 手动输入 URL */}
+          <ImageInput
             className="bg-background"
+            onUploadSuccess={(url) =>
+              setNewImage({ ...newImage, url })
+            }
           />
+          {newImage.url && (
+            <img
+              src={newImage.url}
+              alt="上传图片预览"
+              className="mt-4 max-w-xs border rounded"
+            />
+          )}
+
           {/*<label htmlFor="new-instruction" className="text-sm font-bold">*/}
           {/*  参考指令*/}
           {/*</label>*/}

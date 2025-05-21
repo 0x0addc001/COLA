@@ -176,7 +176,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
     elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "RenderPrototypeImgs":
         goto = "render_node"
     elif ai_message.tool_calls and ai_message.tool_calls[0]["name"] == "WriteAssessmentReport":
-        goto = "kpi_rater_node"
+        goto = "kpi_rate_node"
 
     return Command(
         goto=goto,

@@ -5,6 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { ImageInput } from "@/components/ui/imageinput";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/lib/types";
@@ -36,18 +37,33 @@ export function EditImageDialog({
           <label htmlFor="edit-url" className="text-sm font-bold">
             参考图URL
           </label>
-          <Input
-            id="edit-url"
-            placeholder="参考图URL"
-            value={editImage?.url || ""}
-            onChange={(e) =>
+          {/*<Input*/}
+          {/*  id="edit-url"*/}
+          {/*  placeholder="参考图URL"*/}
+          {/*  value={editImage?.url || ""}*/}
+          {/*  onChange={(e) =>*/}
+          {/*    setEditImage((prev) =>*/}
+          {/*      prev ? { ...prev, url: e.target.value } : null*/}
+          {/*    )*/}
+          {/*  }*/}
+          {/*  aria-label="Edit image URL"*/}
+          {/*  className="bg-background"*/}
+          {/*/>*/}
+          <ImageInput
+            className="bg-background"
+            onUploadSuccess={(url) =>
               setEditImage((prev) =>
-                prev ? { ...prev, url: e.target.value } : null
+                prev ? { ...prev, url } : null
               )
             }
-            aria-label="Edit image URL"
-            className="bg-background"
           />
+          {editImage?.url && (
+            <img
+              src={editImage.url}
+              alt="上传图片预览"
+              className="mt-4 max-w-xs border rounded"
+            />
+          )}
           {/*<label htmlFor="edit-instruction" className="text-sm font-bold">*/}
           {/*  参考指令*/}
           {/*</label>*/}

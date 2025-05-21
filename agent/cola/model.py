@@ -33,7 +33,7 @@ class LLM:
         Get a singleton model instance based on the type.
 
         Args:
-            model_type: CHAT_MODEL, SEARCH_MODEL, PLAN_MODEL, ADAPT_MODEL
+            model_type: CHAT_MODEL, SEARCH_MODEL, PLAN_MODEL, ADAPT_MODEL, KPI_RATE_MODEL
 
         Returns:
             BaseChatModel: Singleton instance of the requested model.
@@ -49,8 +49,9 @@ class LLM:
                     # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    base_url="https://yibuapi.com/v1",
                     timeout=10000,  # 10s timeout
-                    temperature=1
+                    temperature=0
                 )
             elif model_type == SEARCH_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
@@ -58,6 +59,7 @@ class LLM:
                     # model="deepseek-chat",
                     # base_url="https://api.deepseek.com",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    base_url="https://yibuapi.com/v1",
                     timeout=10000,  # 10s timeout
                     temperature=0
                 )
@@ -68,6 +70,7 @@ class LLM:
                     # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    base_url="https://yibuapi.com/v1",
                     timeout=10000,  # 10s timeout
                     temperature=1
                 )
@@ -78,8 +81,9 @@ class LLM:
                     # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    base_url="https://yibuapi.com/v1",
                     timeout=10000,  # 10s timeout
-                    temperature=1
+                    temperature=0.5
                 )
             elif model_type == KPI_RATE_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
@@ -88,7 +92,8 @@ class LLM:
                     # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
                     # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-                    timeout=10000,  # 10s timeout
+                    base_url="https://yibuapi.com/v1",
+                    timeout=500000,  # 10s timeout # 10,000ms
                     temperature=0
                 )
             else:
