@@ -53,7 +53,7 @@ async def adapt_node(state: AgentState, config: RunnableConfig) -> \
                 3. 聚焦空间布局、材质质感、光影氛围、构图视角、风格特征等要素，确保提示词精炼、具体、具备可视化指导性；  
                 4. 整体输出仅包含最终的平面图生成提示词，不包含任何额外说明或中间过程。  
 
-                以下是设计方案：
+                以下是设计方案文档：
                 {design_plan}
                 
                 以下是专业词汇：
