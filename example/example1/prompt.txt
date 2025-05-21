@@ -148,3 +148,12 @@ https://test-1313295794.cos.ap-beijing.myqcloud.com/test.png
 分数：7 /10
 分析：设计方案在功能布局上较为合理，满足了不同用户的需求，空间可达性和使用便捷性较好。然而，社交聚会区的灵活性和安全性方面仍有提升空间，尤其是在高峰时段可能会出现拥挤情况。
 改进建议：建议在社交聚会区增加更多的分隔空间或可移动的设施，以提高安全性和灵活性，同时考虑设置更多的指示标识，提升用户的空间体验。
+
+
+
+test:
+
+https://test-1313295794.cos.ap-beijing.myqcloud.com/test-1.png
+[{"url":"https://test-1313295794.cos.ap-beijing.myqcloud.com/test-1.png"}]
+
+https://liblibai-tmp-image.liblib.cloud/img/0b0bae3956a14eab87ed6400a64b1ea7/e407b2cdff60cec243c5008149360cc7859706659699ea44195a9109978bfbe6.png

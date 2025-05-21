@@ -6,6 +6,15 @@ from langchain_core.messages import SystemMessage, AIMessage, ToolMessage
 from langchain.tools import tool
 from langgraph.types import Command
 from copilotkit.langgraph import copilotkit_customize_config
+from langchain_core.messages.utils import trim_messages
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import RemoveMessage
+
+def delete_messages(state):
+    messages = state["messages"]
+    if len(messages) > 2:
+        # remove the earliest two messages
+        return {"messages": [RemoveMessage(id=m.id) for m in messages[:2]]}
 
 from cola.state import AgentState
 from cola.model import LLM, CHAT_MODEL
@@ -34,6 +43,13 @@ def RenderPrototypeImgs(): # pylint: disable=invalid-name,unused-argument
 @tool
 def WriteAssessmentReport(): # pylint: disable=invalid-name,unused-argument
     """Write the assessment report."""
+
+# def delete_messages(state):
+#     messages = state["messages"]
+def delete_messages(messages):
+    if len(messages) > 2:
+        # remove the earliest two messages
+        return {"messages": [RemoveMessage(id=m.id) for m in messages[:2]]}
 
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> \
@@ -158,7 +174,22 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 {assessment_report}
                 """
         ),
-        *state["messages"],
+        # *state["messages"],
+        # *delete_messages(state["messages"]), # brute force cutting messages
+        *trim_messages(
+          state["messages"],
+          strategy="last",
+          token_counter=ChatOpenAI(model="gpt-4o-mini"),
+          max_tokens=100000,
+          # Most chat models expect that chat history starts with either:
+          # (1) a HumanMessage or
+          # (2) a SystemMessage followed by a HumanMessage
+          start_on="human",
+          # Most chat models expect that chat history ends with either:
+          # (1) a HumanMessage or
+          # (2) a ToolMessage
+          end_on=("human", "tool"),
+        )
     ], config)
 
     ai_message = cast(AIMessage, response)

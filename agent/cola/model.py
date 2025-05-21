@@ -44,7 +44,7 @@ class LLM:
         if model_type not in cls._instances:
             if model_type == CHAT_MODEL:
                 cls._instances[model_type] = ChatOpenAI(
-                    model="gpt-4o",
+                    model="gpt-4o-mini",
                     # model="deepseek-chat",
                     # base_url="https://api.deepseek.com",
                     # model="deepseek-v3",
