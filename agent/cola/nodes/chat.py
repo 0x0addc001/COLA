@@ -37,7 +37,7 @@ def WriteAssessmentReport(): # pylint: disable=invalid-name,unused-argument
 
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> \
-    Command[Literal["search_node", "delete_node", "plan_node", "adapt_node", "render_node", "__end__"]]:
+    Command[Literal["search_node", "delete_node", "plan_node", "adapt_node", "render_node", "kpi_rate_node", "__end__"]]:
     """
     Chat Node
     """
@@ -127,7 +127,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 请严格按照以下7步进行工作：
                 1. 获取项目设定。
                 2. 使用 Search 工具查找参考资料。
-                3. 使用 WriteDesignPlan 工具撰写设计方案。
+                3. 使用 WriteDesignPlan 工具撰写设计方案文档。
                 4. 使用 WritePlan2ImgPrompt 工具撰写平面图生成提示词。
                 5. 获取参考图。
                 6. 使用 RenderPrototypeImgs 工具渲染设计平面图。
@@ -142,7 +142,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 以下是参考资料：
                 {references}
 
-                以下是设计方案：
+                以下是设计方案文档：
                 {design_plan}
                 
                 以下是平面图生成提示词：

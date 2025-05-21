@@ -23,7 +23,11 @@ async def kpi_rate_node(state: AgentState, config: RunnableConfig) -> \
 
     # project_settings = state.get("project_settings", "")
     design_plan = state.get("design_plan", "")
-    prototype_imgs = state.get("prototype_imgs", [])
+    # prototype_imgs = state.get("prototype_imgs", [])
+    prototype_imgs = []
+    for prototype_img in state["prototype_imgs"]:
+        prototype_imgs.append(prototype_img["url"])
+    print("prototype_imgs:", prototype_imgs)
 
     model = LLM.get_model(KPI_RATE_MODEL)
     # Prepare the kwargs for the ainvoke method
@@ -33,7 +37,11 @@ async def kpi_rate_node(state: AgentState, config: RunnableConfig) -> \
 
     response = await model.ainvoke([
         SystemMessage(
-            content=f"""
+            content=[
+                {
+                    "type": "text",
+                    "text": f"""
+                    
                 你是一位景观设计方案评估专家，专门负责对风景园林设计方案进行多维度量化评估并输出改进建议。
                 你的工作流程如下：  
                 1. 读取输入的设计方案文档和平面图及示意图
@@ -57,14 +65,20 @@ async def kpi_rate_node(state: AgentState, config: RunnableConfig) -> \
 
                 3. 输出格式要求
                    仅输出评估内容本身，不包含任何额外说明、格式代码或注释信息。语言需简洁、专业、具有针对性
-                  
               
-                以下是设计方案：
+                以下是设计方案文档：
                 {design_plan}
                 
-                以下是平面图：
-                {prototype_imgs}
+                平面图已作为附件上传
                 """
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": prototype_imgs[0],
+                    },
+                },
+            ]
         ),
         *state["messages"],
         ToolMessage(
