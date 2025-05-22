@@ -46,7 +46,7 @@ export function AddImageDialog({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="new-url" className="text-sm font-bold">
-            参考图URL
+            参考图
           </label>
 
           {/*模仿此处的代码示例，修改新的上传组件的代码*/}

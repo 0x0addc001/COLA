@@ -35,7 +35,7 @@ export function EditImageDialog({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <label htmlFor="edit-url" className="text-sm font-bold">
-            参考图URL
+            参考图
           </label>
           {/*<Input*/}
           {/*  id="edit-url"*/}
