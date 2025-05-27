@@ -149,8 +149,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> \
                 6. 使用 RenderPrototypeImgs 工具渲染设计平面图。
                 7. 使用 WriteAssessmentReport 工具评估设计方案和平面图。
                 在完成每一步时，你应主动向用户征询这一步所需的考虑因素，不应询问用户这一步之后的步骤。
-                在完成每一步后，你应主动中断工作并向用户征询这一步的意见，不应复述工作文档中的内容。
-                全部工作文档如下。
+                在完成每一步后，你应主动中断工作并向用户征询这一步的意见，不应复述工作文档（如下）中的内容。
 
                 以下是项目设定：
                 {project_settings}

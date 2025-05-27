@@ -33,6 +33,8 @@ async def search_node(state: AgentState, config: RunnableConfig):
 
     ai_message = cast(AIMessage, state["messages"][-1])
 
+    project_settings = state.get("project_settings", "")
+
     state["references"] = state.get("references", [])
     state["logs"] = state.get("logs", [])
     queries = ai_message.tool_calls[0]["args"]["queries"]
@@ -52,6 +54,10 @@ async def search_node(state: AgentState, config: RunnableConfig):
         search_results.append(response)
         state["logs"][i]["done"] = True
         await copilotkit_emit_state(config, state)
+
+
+
+
 
     config = copilotkit_customize_config(
         config,
@@ -73,15 +79,19 @@ async def search_node(state: AgentState, config: RunnableConfig):
         tool_choice="ExtractReferences",
         **ainvoke_kwargs
     ).ainvoke([
+        # 选取并格式化
         SystemMessage(
-            content="""
-                你需要从以下搜索结果中提取出3条最相关的参考资料。
+            content=f"""
+                你是一位景观设计方案资料筛选者，你需要从以下检索结果中筛选出3条与项目设定最相关的参考资料，作为设计方案文档的参考资料。
+                
+                以下是项目设定：
+                {project_settings}
                 """
         ),
         *state["messages"],
         ToolMessage(
-        tool_call_id=ai_message.tool_calls[0]["id"],
-        content=f"已完成查找: {search_results}"
+            tool_call_id=ai_message.tool_calls[0]["id"],
+            content=f"已检索到的参考资料: {search_results}"
     )
     ], config)
 
