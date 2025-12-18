@@ -6,12 +6,11 @@ COLA, short for COpilot for Landscape Architecture, is a human-in-the-loop agent
 
 ## Demo
 
-<video width="100%" controls>
-  <source src="video_20250522.mp4" type="video/mp4">
-</video>
+<iframe width="100%" height="400" src="https://youtu.be/0gFEBiUQDRk" frameborder="0" allowfullscreen></iframe>
+
 <img src="images\spark.png" style="zoom:25%;" />
 
-<img src="D:images\graph.png" style="zoom:50%;" />
+<img src="D:images\graph.png" style="zoom:25%;" />
 
 <img src="images\screenshot-1.png" style="zoom:25%;" />
 
